@@ -2,10 +2,10 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const warmups = [
-    { id: 401, nombre: 'Trote Suave', categoria: 'WARMUP', tipo: 'CARDIO_SUAVE', nivel_permitido: ['PRINCIPIANTE', 'INTERMEDIO', 'AVANZADO'], lugar: ['CASA', 'GIMNASIO'], equipamiento: ['PESO_CORPORAL'], orden_recomendado: 'WARMUP', grupo_muscular_primario: 'CARDIO', fatiga_neuromuscular: 1 },
-    { id: 402, nombre: 'Movilidad Articular Dinámica', categoria: 'WARMUP', tipo: 'MOVILIDAD', nivel_permitido: ['PRINCIPIANTE', 'INTERMEDIO', 'AVANZADO'], lugar: ['CASA', 'GIMNASIO'], equipamiento: ['PESO_CORPORAL'], orden_recomendado: 'WARMUP', grupo_muscular_primario: 'MOVILIDAD', fatiga_neuromuscular: 1 },
-    { id: 403, nombre: 'Saltos de Cuerda Suaves', categoria: 'WARMUP', tipo: 'CARDIO_SUAVE', nivel_permitido: ['INTERMEDIO', 'AVANZADO'], lugar: ['CASA', 'GIMNASIO'], equipamiento: ['CUERDA'], orden_recomendado: 'WARMUP', grupo_muscular_primario: 'CARDIO', fatiga_neuromuscular: 1 },
-    { id: 404, nombre: 'Gato-Camello (Movilidad Columna)', categoria: 'WARMUP', tipo: 'MOVILIDAD', nivel_permitido: ['PRINCIPIANTE', 'INTERMEDIO', 'AVANZADO'], lugar: ['CASA', 'GIMNASIO'], equipamiento: ['PESO_CORPORAL'], orden_recomendado: 'WARMUP', grupo_muscular_primario: 'CORE', fatiga_neuromuscular: 1 }
+    { id: 401, nombre: 'Trote Suave', categoria: 'WARMUP', tipo: 'CARDIO_SUAVE', nivel_permitido: ['PRINCIPIANTE', 'INTERMEDIO', 'AVANZADO'], lugar: ['CASA', 'GIMNASIO'], equipamiento: ['PESO_CORPORAL'], orden_recomendado: 'WARMUP', grupo_muscular_primario: 'CARDIO', fatiga_neuromuscular: 1, urlVideoLoop: "" },
+    { id: 402, nombre: 'Movilidad Articular Dinámica', categoria: 'WARMUP', tipo: 'MOVILIDAD', nivel_permitido: ['PRINCIPIANTE', 'INTERMEDIO', 'AVANZADO'], lugar: ['CASA', 'GIMNASIO'], equipamiento: ['PESO_CORPORAL'], orden_recomendado: 'WARMUP', grupo_muscular_primario: 'MOVILIDAD', fatiga_neuromuscular: 1, urlVideoLoop: "" },
+    { id: 403, nombre: 'Saltos de Cuerda Suaves', categoria: 'WARMUP', tipo: 'CARDIO_SUAVE', nivel_permitido: ['INTERMEDIO', 'AVANZADO'], lugar: ['CASA', 'GIMNASIO'], equipamiento: ['CUERDA'], orden_recomendado: 'WARMUP', grupo_muscular_primario: 'CARDIO', fatiga_neuromuscular: 1, urlVideoLoop: "" },
+    { id: 404, nombre: 'Gato-Camello (Movilidad Columna)', categoria: 'WARMUP', tipo: 'MOVILIDAD', nivel_permitido: ['PRINCIPIANTE', 'INTERMEDIO', 'AVANZADO'], lugar: ['CASA', 'GIMNASIO'], equipamiento: ['PESO_CORPORAL'], orden_recomendado: 'WARMUP', grupo_muscular_primario: 'CORE', fatiga_neuromuscular: 1, urlVideoLoop: "" }
 ];
 
 async function main() {

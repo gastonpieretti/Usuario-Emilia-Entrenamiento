@@ -15,9 +15,9 @@ router.get('/:id', auth_1.isAuthenticated, auth_1.isAdmin, userController_1.getU
 router.put('/:id', auth_1.isAuthenticated, auth_1.isAdmin, (0, validation_1.validate)([
     (0, express_validator_1.body)('email').optional({ nullable: true }).isEmail().withMessage('Invalid email'),
     (0, express_validator_1.body)('role').optional({ nullable: true }).isIn(['client', 'admin']).withMessage('Invalid role'),
-    (0, express_validator_1.body)('height').optional({ nullable: true }).isNumeric(),
-    (0, express_validator_1.body)('weight').optional({ nullable: true }).isNumeric(),
-    (0, express_validator_1.body)('age').optional({ nullable: true }).isInt(),
+    (0, express_validator_1.body)('height').optional({ nullable: true }).isNumeric().toFloat(),
+    (0, express_validator_1.body)('weight').optional({ nullable: true }).isNumeric().toFloat(),
+    (0, express_validator_1.body)('age').optional({ nullable: true }).isInt().toInt(),
     (0, express_validator_1.body)('planExpiresAt').optional({ nullable: true }).isISO8601().toDate(),
 ]), userController_1.updateUser);
 router.post('/profile', auth_1.isAuthenticated, userController_1.updateProfile);

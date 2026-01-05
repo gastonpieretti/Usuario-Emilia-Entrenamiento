@@ -1,37 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -45,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateProfile = exports.updateUser = exports.getUser = exports.getUsers = exports.deletePermanently = exports.restoreFromTrash = exports.moveToTrash = exports.getTrash = void 0;
 // ... existing imports
 const userService_1 = require("../services/userService");
+const smartOrchestrator_1 = require("../services/smartOrchestrator");
+const routineOrchestrator_1 = require("../services/routineOrchestrator");
 // ... existing functions
 const getTrash = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -63,6 +32,7 @@ const moveToTrash = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json({ message: 'User moved to trash' });
     }
     catch (error) {
+        console.error('[UserController] Error in moveToTrash:', error);
         res.status(500).json({ error: 'Error moving user to trash' });
     }
 });
@@ -112,6 +82,7 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json(user);
     }
     catch (error) {
+        console.error('[UserController] Error in getUser:', error);
         res.status(500).json({ error: 'Error fetching user' });
     }
 });
@@ -124,6 +95,7 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         res.json(user);
     }
     catch (error) {
+        console.error('[UserController] Error in updateUser:', error);
         res.status(500).json({ error: 'Error updating user' });
     }
 });
@@ -139,20 +111,18 @@ const updateProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             console.log('Unauthorized: No userId in request');
             return res.status(401).json({ error: 'Unauthorized' });
         }
-        const profile = yield (0, userService_1.updateUserProfile)(userId, req.body);
-        console.log('Profile updated successfully');
-        // TRIGGER: onUserRegistrationComplete
-        let orchestrationMessage = '¡Perfil y rutina creados con éxito!';
-        try {
-            const { generateOrchestratedRoutine } = yield Promise.resolve().then(() => __importStar(require('../services/routineOrchestrator')));
-            yield generateOrchestratedRoutine(userId);
-            console.log('Automatic routine generation triggered for user:', userId);
+        // Use the SmartOrchestrator to process the core business logic
+        const analysis = yield smartOrchestrator_1.SmartOrchestrator.processOnboarding(userId, req.body);
+        let routine = null;
+        // If it's the final activation (checked by some flag or hasCompletedOnboarding)
+        if (req.body.isFinalStep) {
+            routine = yield (0, routineOrchestrator_1.generateOrchestratedRoutine)(userId, 1); // Month 1
         }
-        catch (genError) {
-            console.error('Failed to auto-generate routine:', genError);
-            orchestrationMessage = genError.message || 'El perfil se guardó, pero hubo un detalle al generar la rutina automática.';
-        }
-        res.json(Object.assign(Object.assign({}, profile), { orchestrationMessage }));
+        res.json({
+            message: 'Profile updated successfully',
+            analysis,
+            routine // This contains the modelo_salida_rutina.json compliant structure
+        });
     }
     catch (error) {
         console.error('Error updating profile:', error);

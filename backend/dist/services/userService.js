@@ -45,6 +45,11 @@ const getAllUsers = (search) => __awaiter(void 0, void 0, void 0, function* () {
             createdAt: true,
             isApproved: true,
             planExpiresAt: true,
+            routines: {
+                select: {
+                    id: true,
+                }
+            }
         },
         orderBy: { createdAt: 'desc' },
     });
@@ -126,18 +131,51 @@ const updateUserById = (id, data) => __awaiter(void 0, void 0, void 0, function*
     const allowedFields = ['email', 'name', 'lastName', 'isApproved', 'role', 'height', 'weight', 'age', 'hasCompletedOnboarding', 'isDeleted', 'securityQuestion', 'securityAnswer', 'planExpiresAt'];
     const userData = {};
     for (const key of allowedFields) {
-        if (rest[key] !== undefined) {
-            userData[key] = rest[key];
+        if (rest[key] !== undefined && rest[key] !== null) {
+            let value = rest[key];
+            // Cast numeric fields
+            if (['age'].includes(key)) {
+                value = parseInt(value);
+                if (isNaN(value))
+                    continue;
+            }
+            if (['height', 'weight'].includes(key)) {
+                value = parseFloat(value);
+                if (isNaN(value))
+                    continue;
+            }
+            userData[key] = value;
         }
     }
     const updateData = Object.assign({}, userData);
     if (profile) {
-        // Clean profile data
-        const allowedProfileFields = ['whatsapp', 'city', 'country', 'dob', 'occupation', 'goal', 'experienceLevel', 'trainingLocation', 'daysPerWeek', 'painAreas', 'injuries', 'dietPreference', 'mealsPerDay', 'waterIntake', 'dislikedFood', 'equipment', 'drinks', 'digestiveIssues', 'abandonmentCauses', 'emotionalGoal', 'comments'];
+        // Clean profile data - UPDATED with standardized fields
+        const allowedProfileFields = [
+            'gender', 'age', 'height_cm', 'weight_kg',
+            'experienceLevel', 'goal',
+            'daysPerWeek', 'sessionDurationMin',
+            'trainingLocation', 'equipment',
+            'painRodilla', 'painColumna', 'painHombro',
+            'whatsapp', 'city', 'country', 'dob', 'occupation',
+            'injuries', 'dietPreference', 'mealsPerDay', 'waterIntake', 'dislikedFood'
+        ];
         const cleanProfile = {};
         for (const key of allowedProfileFields) {
-            if (profile[key] !== undefined)
-                cleanProfile[key] = profile[key];
+            if (profile[key] !== undefined && profile[key] !== null) {
+                let value = profile[key];
+                // Strict type casting for known numeric fields
+                if (['age', 'daysPerWeek', 'mealsPerDay', 'sessionDurationMin'].includes(key)) {
+                    value = parseInt(value);
+                    if (isNaN(value))
+                        continue; // Skip if invalid number
+                }
+                if (['height_cm', 'weight_kg'].includes(key)) {
+                    value = parseFloat(value);
+                    if (isNaN(value))
+                        continue;
+                }
+                cleanProfile[key] = value;
+            }
         }
         updateData.profile = {
             upsert: {
@@ -146,10 +184,17 @@ const updateUserById = (id, data) => __awaiter(void 0, void 0, void 0, function*
             },
         };
     }
-    return prisma_1.prisma.user.update({
-        where: { id },
-        data: updateData,
-    });
+    try {
+        const updated = yield prisma_1.prisma.user.update({
+            where: { id },
+            data: updateData,
+        });
+        return updated;
+    }
+    catch (error) {
+        console.error('[UserService] Prisma update error:', error);
+        throw error;
+    }
 });
 exports.updateUserById = updateUserById;
 const updateUserProfile = (userId, data) => __awaiter(void 0, void 0, void 0, function* () {

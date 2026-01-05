@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createRoutineSnapshot = exports.deleteRoutine = exports.updateRoutine = exports.getAllExercises = exports.addRoutineExercise = exports.deleteRoutineExercise = exports.updateRoutineExercise = exports.getRoutines = exports.generateRoutine = void 0;
+exports.getPendingRoutinesSummary = exports.denyRoutine = exports.approveRoutine = exports.duplicateRoutine = exports.createRoutine = exports.createRoutineSnapshot = exports.deleteRoutine = exports.updateRoutine = exports.getAllExercises = exports.addRoutineExercise = exports.deleteRoutineExercise = exports.updateRoutineExercise = exports.getRoutines = exports.generateRoutine = void 0;
 const routineOrchestrator_1 = require("../services/routineOrchestrator");
 const prisma_1 = require("../lib/prisma");
 const socket_1 = require("../services/socket");
@@ -29,11 +29,18 @@ const generateRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.generateRoutine = generateRoutine;
 const getRoutines = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     try {
         const userId = Number(req.query.userId) || ((_a = req.user) === null || _a === void 0 ? void 0 : _a.userId);
+        const requestingUserRole = (_b = req.user) === null || _b === void 0 ? void 0 : _b.role;
+        // Build where clause
+        const whereClause = { userId };
+        // [SECURITY] If not admin, only show approved routines
+        if (requestingUserRole !== 'admin') {
+            whereClause.isApproved = true;
+        }
         const routines = yield prisma_1.prisma.routine.findMany({
-            where: { userId },
+            where: whereClause,
             include: {
                 exercises: {
                     include: { exercise: true },
@@ -41,6 +48,9 @@ const getRoutines = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
                 }
             }
         });
+        // Enforce strict chronological sort
+        const dayOrder = { 'Lunes': 1, 'Martes': 2, 'Miércoles': 3, 'Jueves': 4, 'Viernes': 5, 'Sábado': 6, 'Domingo': 7 };
+        routines.sort((a, b) => (dayOrder[a.weekDay] || 99) - (dayOrder[b.weekDay] || 99));
         res.json(routines);
     }
     catch (error) {
@@ -210,3 +220,136 @@ const createRoutineSnapshot = (userId, routineId, changeType) => __awaiter(void 
     }
 });
 exports.createRoutineSnapshot = createRoutineSnapshot;
+const createRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId, weekDay, title } = req.body;
+        if (!userId || !weekDay) {
+            return res.status(400).json({ error: 'User ID and Week Day are required' });
+        }
+        // Get max order to append at end
+        const lastRoutine = yield prisma_1.prisma.routine.findFirst({
+            where: { userId: Number(userId) },
+            orderBy: { order: 'desc' }
+        });
+        const newOrder = lastRoutine ? lastRoutine.order + 1 : 0;
+        const routine = yield prisma_1.prisma.routine.create({
+            data: {
+                userId: Number(userId),
+                weekDay,
+                title: title || `Rutina ${weekDay}`,
+                order: newOrder,
+                description: 'Nueva rutina creada manualmente'
+            }
+        });
+        (0, socket_1.notifyRoutineUpdate)(Number(userId));
+        res.json(routine);
+    }
+    catch (error) {
+        console.error('Create routine error:', error);
+        res.status(500).json({ error: 'Error creating routine' });
+    }
+});
+exports.createRoutine = createRoutine;
+const duplicateRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const sourceRoutine = yield prisma_1.prisma.routine.findUnique({
+            where: { id: Number(id) },
+            include: { exercises: true }
+        });
+        if (!sourceRoutine)
+            return res.status(404).json({ error: 'Routine not found' });
+        const lastRoutine = yield prisma_1.prisma.routine.findFirst({
+            where: { userId: sourceRoutine.userId },
+            orderBy: { order: 'desc' }
+        });
+        const newOrder = lastRoutine ? lastRoutine.order + 1 : 0;
+        const newRoutine = yield prisma_1.prisma.routine.create({
+            data: {
+                userId: sourceRoutine.userId,
+                weekDay: sourceRoutine.weekDay, // Same day initially (will show as duplicate)
+                title: `${sourceRoutine.title} (Copia)`,
+                description: sourceRoutine.description,
+                order: newOrder,
+                exercises: {
+                    create: sourceRoutine.exercises.map(ex => ({
+                        exerciseId: ex.exerciseId,
+                        sets: ex.sets,
+                        reps: ex.reps,
+                        restTime: ex.restTime,
+                        order: ex.order
+                    }))
+                }
+            },
+            include: { exercises: true }
+        });
+        (0, socket_1.notifyRoutineUpdate)(sourceRoutine.userId);
+        res.json(newRoutine);
+    }
+    catch (error) {
+        console.error('Duplicate routine error:', error);
+        res.status(500).json({ error: 'Error duplicating routine' });
+    }
+});
+exports.duplicateRoutine = duplicateRoutine;
+const approveRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params; // Routine ID or Month (if month, we need userId)
+        const { userId, month } = req.body;
+        if (month && userId) {
+            // Approve all routines of a month
+            yield prisma_1.prisma.routine.updateMany({
+                where: { userId: Number(userId), month: Number(month) },
+                data: { isApproved: true }
+            });
+            (0, socket_1.notifyRoutineUpdate)(Number(userId));
+            return res.json({ message: `Routines for month ${month} approved` });
+        }
+        const updated = yield prisma_1.prisma.routine.update({
+            where: { id: Number(id) },
+            data: { isApproved: true }
+        });
+        (0, socket_1.notifyRoutineUpdate)(updated.userId);
+        res.json(updated);
+    }
+    catch (error) {
+        console.error('Approve routine error:', error);
+        res.status(500).json({ error: 'Error approving routine' });
+    }
+});
+exports.approveRoutine = approveRoutine;
+const denyRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const deleted = yield prisma_1.prisma.routine.delete({
+            where: { id: Number(id) }
+        });
+        (0, socket_1.notifyRoutineUpdate)(deleted.userId);
+        res.json({ message: 'Routine rejected and removed' });
+    }
+    catch (error) {
+        console.error('Deny routine error:', error);
+        res.status(500).json({ error: 'Error denying routine' });
+    }
+});
+exports.denyRoutine = denyRoutine;
+const getPendingRoutinesSummary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const pending = yield prisma_1.prisma.routine.findMany({
+            where: { isApproved: false },
+            include: {
+                user: {
+                    select: { name: true, lastName: true, email: true }
+                }
+            },
+            distinct: ['userId', 'month'],
+            orderBy: { createdAt: 'desc' }
+        });
+        res.json(pending);
+    }
+    catch (error) {
+        console.error('Get pending routines error:', error);
+        res.status(500).json({ error: 'Error fetching pending routines' });
+    }
+});
+exports.getPendingRoutinesSummary = getPendingRoutinesSummary;

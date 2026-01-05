@@ -18,6 +18,7 @@ const isAuthenticated = (req, res, next) => {
         next();
     }
     catch (error) {
+        console.error('[AUTH ERROR] Token validation failed:', error.message);
         return res.status(401).json({ error: 'Invalid token' });
     }
 };

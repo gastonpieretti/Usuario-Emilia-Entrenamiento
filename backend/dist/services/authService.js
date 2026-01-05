@@ -16,12 +16,33 @@ exports.loginUser = exports.resetPassword = exports.recoverPassword = exports.ge
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const prisma_1 = require("../lib/prisma");
+const supabase_1 = require("../lib/supabase");
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey';
 const registerUser = (email, password, name, lastName, securityQuestion, securityAnswer) => __awaiter(void 0, void 0, void 0, function* () {
     const existingUser = yield prisma_1.prisma.user.findUnique({ where: { email } });
     if (existingUser) {
         throw new Error('User already exists');
     }
+    // 1. Register in Supabase Auth
+    console.log(`[SUPABASE] Attempting to sign up: ${email}`);
+    const { data: sbData, error: sbError } = yield supabase_1.supabase.auth.signUp({
+        email,
+        password,
+        options: {
+            data: {
+                name,
+                lastName,
+                full_name: `${name} ${lastName}`
+            }
+        }
+    });
+    if (sbError) {
+        console.error('[SUPABASE ERROR]', sbError);
+        // If user already exists in Supabase but not in Prisma, we might want to proceed 
+        // or tell the user. For now, let's treat it as an error to be safe.
+        throw new Error(`Error en Supabase: ${sbError.message}`);
+    }
+    // 2. Register in Local Database (Prisma)
     const passwordHash = yield bcrypt_1.default.hash(password, 10);
     // Hash security answer if provided
     let securityAnswerHash = null;
@@ -40,7 +61,11 @@ const registerUser = (email, password, name, lastName, securityQuestion, securit
         },
     });
     const token = jsonwebtoken_1.default.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });
-    return { token, user: { id: user.id, email: user.email, name: user.name, role: user.role } };
+    return {
+        token,
+        user: { id: user.id, email: user.email, name: user.name, role: user.role },
+        supabaseUser: sbData.user
+    };
 });
 exports.registerUser = registerUser;
 const getSecurityQuestion = (email) => __awaiter(void 0, void 0, void 0, function* () {
@@ -91,18 +116,42 @@ const resetPassword = (token, newPassword) => __awaiter(void 0, void 0, void 0, 
 exports.resetPassword = resetPassword;
 const loginUser = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(`[LOGIN ATTEMPT] Email: ${email}`);
+    // 1. First, try to authenticate with Supabase
+    const { data: sbData, error: sbError } = yield supabase_1.supabase.auth.signInWithPassword({
+        email,
+        password,
+    });
     const user = yield prisma_1.prisma.user.findUnique({ where: { email } });
-    if (!user) {
-        console.log('[LOGIN FAIL] User not found');
-        throw new Error('Invalid credentials');
+    if (sbError || !sbData.user) {
+        console.log('[SUPABASE LOGIN FAIL]', (sbError === null || sbError === void 0 ? void 0 : sbError.message) || 'No user data');
+        // 2. Fallback to local database for existing users not yet in Supabase
+        if (!user) {
+            throw new Error('Invalid credentials');
+        }
+        const isPasswordValid = yield bcrypt_1.default.compare(password, user.passwordHash);
+        if (!isPasswordValid) {
+            throw new Error('Invalid credentials');
+        }
+        // If local login succeeds, attempt a background "sync" to Supabase
+        console.log(`[MIGRATION] Syncing user ${email} to Supabase...`);
+        supabase_1.supabase.auth.signUp({ email, password }).then(({ error }) => {
+            if (error)
+                console.error('[MIGRATION ERROR]', error.message);
+            else
+                console.log(`[MIGRATION] User ${email} successfully synced to Supabase.`);
+        });
     }
-    console.log(`[LOGIN FOUND] User: ${user.email}, Role: ${user.role}, Hash: ${user.passwordHash.substring(0, 10)}...`);
-    const isPasswordValid = yield bcrypt_1.default.compare(password, user.passwordHash);
-    if (!isPasswordValid) {
-        console.log('[LOGIN FAIL] Invalid password');
-        throw new Error('Invalid credentials');
+    else {
+        console.log('[SUPABASE LOGIN SUCCESS]');
+        if (!user) {
+            throw new Error('User not found in local database. Please contact support.');
+        }
     }
     const token = jsonwebtoken_1.default.sign({ userId: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1d' });
-    return { token, user: { id: user.id, email: user.email, name: user.name, role: user.role, planExpiresAt: user.planExpiresAt } };
+    return {
+        token,
+        user: { id: user.id, email: user.email, name: user.name, role: user.role, planExpiresAt: user.planExpiresAt },
+        supabaseUser: sbData.user || null
+    };
 });
 exports.loginUser = loginUser;

@@ -5,12 +5,17 @@ const historyController_1 = require("../controllers/historyController");
 const routineController_1 = require("../controllers/routineController");
 const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
+router.get('/pending', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.getPendingRoutinesSummary);
+router.post('/:id/approve', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.approveRoutine);
+router.delete('/:id/deny', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.denyRoutine);
 router.post('/generate', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.generateRoutine);
+router.post('/', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.createRoutine);
 router.get('/', auth_1.isAuthenticated, routineController_1.getRoutines);
 router.get('/exercises/all', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.getAllExercises);
 router.post('/exercises', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.addRoutineExercise);
 router.patch('/:id', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.updateRoutine);
 router.delete('/:id', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.deleteRoutine);
+router.post('/:id/duplicate', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.duplicateRoutine);
 // History routes
 router.get('/history/user/:userId', auth_1.isAuthenticated, auth_1.isAdmin, historyController_1.getUserRoutineHistory);
 router.get('/:routineId/history', auth_1.isAuthenticated, auth_1.isAdmin, historyController_1.getRoutineHistory);
