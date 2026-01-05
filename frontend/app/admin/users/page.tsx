@@ -12,6 +12,7 @@ interface User {
     role: string;
     createdAt: string;
     planExpiresAt?: string;
+    isApproved: boolean;
 }
 
 export default function UsersPage() {
