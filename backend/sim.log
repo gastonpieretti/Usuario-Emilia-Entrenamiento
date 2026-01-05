@@ -1,0 +1,38 @@
+﻿--- INICIO SIMULACI├ôN USUARIO 999 ---
+Usuario y Perfil 999 configurados.
+Ejercicios de prueba (2/2/2) creados.
+Ejecutando generateOrchestratedRoutine(999)...
+
+RESULTADOS: Se generaron 3 rutinas.
+
+> RUTINA: Plan Orquestado - Lunes | D├ìA: Lunes
+  Ejercicios (6):
+    - [Principiante] Empuje P2 (Empuje) | 3 series x 10 reps
+    - [Principiante] Empuje P1 (Empuje) | 3 series x 10 reps
+    - [Principiante] Traccion P2 (Tracci├│n) | 3 series x 10 reps
+    - [Principiante] Traccion P1 (Tracci├│n) | 3 series x 10 reps
+    - [Principiante] Leg P1 (Leg) | 3 series x 10 reps
+    - [Principiante] Leg P2 (Leg) | 3 series x 10 reps
+  BALANCE: Empuje: 2, Tracci├│n: 2, Leg: 2
+
+> RUTINA: Plan Orquestado - Mi├®rcoles | D├ìA: Mi├®rcoles
+  Ejercicios (6):
+    - [Principiante] Empuje P1 (Empuje) | 3 series x 10 reps
+    - [Principiante] Empuje P2 (Empuje) | 3 series x 10 reps
+    - [Principiante] Traccion P2 (Tracci├│n) | 3 series x 10 reps
+    - [Principiante] Traccion P1 (Tracci├│n) | 3 series x 10 reps
+    - [Principiante] Leg P1 (Leg) | 3 series x 10 reps
+    - [Principiante] Leg P2 (Leg) | 3 series x 10 reps
+  BALANCE: Empuje: 2, Tracci├│n: 2, Leg: 2
+
+> RUTINA: Plan Orquestado - Viernes | D├ìA: Viernes
+  Ejercicios (6):
+    - [Principiante] Empuje P2 (Empuje) | 3 series x 10 reps
+    - [Principiante] Empuje P1 (Empuje) | 3 series x 10 reps
+    - [Principiante] Traccion P2 (Tracci├│n) | 3 series x 10 reps
+    - [Principiante] Traccion P1 (Tracci├│n) | 3 series x 10 reps
+    - [Principiante] Leg P1 (Leg) | 3 series x 10 reps
+    - [Principiante] Leg P2 (Leg) | 3 series x 10 reps
+  BALANCE: Empuje: 2, Tracci├│n: 2, Leg: 2
+
+--- FIN SIMULACI├ôN ---

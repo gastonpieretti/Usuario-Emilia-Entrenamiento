@@ -1,0 +1,177 @@
+{
+    "motor_nutricional": {
+        "version": "1.0",
+        "nombre": "Motor Central de Nutrición Automatizada",
+        "autor": "Sistema Profesional de Nutrición Inteligente"
+    },
+    "inputs_obligatorios": {
+        "sexo": [
+            "femenino",
+            "masculino"
+        ],
+        "edad": "number",
+        "peso_kg": "number",
+        "altura_cm": "number",
+        "nivel_actividad": [
+            "bajo",
+            "moderado",
+            "alto"
+        ],
+        "objetivo_principal": [
+            "quema_grasa",
+            "recomposicion",
+            "salud"
+        ],
+        "duracion_plan_meses": [
+            1,
+            2,
+            3,
+            4
+        ],
+        "comidas_por_dia": [
+            3,
+            4,
+            5
+        ],
+        "preferencias_alimentarias": [],
+        "alimentos_excluidos": [],
+        "condiciones_especiales": [
+            "ninguna",
+            "ansiedad",
+            "resistencia_insulina"
+        ],
+        "entorno": [
+            "hogar",
+            "trabajo"
+        ]
+    },
+    "calculo_calorico_base": {
+        "formula": "mifflin_st_jeor",
+        "ajuste_por_objetivo": {
+            "quema_grasa": -20,
+            "recomposicion": -10,
+            "salud": 0
+        }
+    },
+    "distribucion_macronutrientes": {
+        "quema_grasa": {
+            "proteinas_pct": 35,
+            "carbohidratos_pct": 30,
+            "grasas_pct": 35
+        },
+        "recomposicion": {
+            "proteinas_pct": 30,
+            "carbohidratos_pct": 40,
+            "grasas_pct": 30
+        },
+        "salud": {
+            "proteinas_pct": 25,
+            "carbohidratos_pct": 45,
+            "grasas_pct": 30
+        }
+    },
+    "estructura_comidas": {
+        "desayuno": {
+            "prioridad": [
+                "proteina",
+                "fibra"
+            ],
+            "carbohidrato": "moderado"
+        },
+        "almuerzo": {
+            "prioridad": [
+                "proteina",
+                "vegetales"
+            ],
+            "carbohidrato": "principal"
+        },
+        "cena": {
+            "prioridad": [
+                "proteina",
+                "vegetales"
+            ],
+            "carbohidrato": "bajo"
+        },
+        "snacks": {
+            "opcional": true,
+            "enfoque": [
+                "proteina",
+                "grasas_buenas"
+            ]
+        }
+    },
+    "reglas_seleccion_alimentos": [
+        {
+            "if": {
+                "condicion": "ansiedad"
+            },
+            "then": {
+                "priorizar": [
+                    "alimentos_saciantes",
+                    "bajo_indice_glucemico"
+                ],
+                "excluir": [
+                    "azucares",
+                    "harinas_refinadas"
+                ]
+            }
+        },
+        {
+            "if": {
+                "objetivo_principal": "quema_grasa"
+            },
+            "then": {
+                "priorizar": [
+                    "proteinas_magras",
+                    "vegetales",
+                    "grasas_buenas"
+                ]
+            }
+        }
+    ],
+    "reglas_periodizacion_mensual": {
+        "mes_1": {
+            "enfoque": "adaptacion_metabolica",
+            "variacion_menu": false,
+            "calorias_factor": 1.0
+        },
+        "mes_2": {
+            "enfoque": "progresion",
+            "variacion_menu": true,
+            "calorias_factor": 0.95
+        },
+        "mes_3": {
+            "enfoque": "optimizacion",
+            "rotacion_carbohidratos": true,
+            "calorias_factor": 0.9
+        },
+        "mes_4": {
+            "enfoque": "consolidacion",
+            "refeeds_controlados": true,
+            "calorias_factor": 0.95
+        }
+    },
+    "motor_generacion_menu": {
+        "logica": "combinatoria",
+        "criterios": [
+            "cumplir_macros",
+            "respetar_preferencias",
+            "evitar_alimentos_excluidos",
+            "variacion_semanal"
+        ]
+    },
+    "feedback_loop": {
+        "si_hambre_constante": "incrementar_fibra_y_proteina",
+        "si_estancamiento": "ajustar_calorias_-5",
+        "si_ansiedad": "activar_protocolo_estabilidad"
+    },
+    "output": {
+        "tipo": "plan_alimentacion_semanal_periodizado",
+        "incluye": [
+            "calorias_diarias",
+            "macros_por_comida",
+            "menu_semanal",
+            "variacion_mensual"
+        ]
+    }
+}

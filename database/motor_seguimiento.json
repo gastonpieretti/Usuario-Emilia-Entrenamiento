@@ -1,0 +1,167 @@
+{
+    "sistema_seguimiento_semanal": {
+        "version": "1.0",
+        "nombre": "Motor de Seguimiento y Ajuste Automático",
+        "autor": "Sistema Inteligente de Progreso"
+    },
+    "frecuencia": "semanal",
+    "inputs_usuario": {
+        "peso_actual_kg": "number",
+        "cumplimiento_entrenamiento_pct": "number",
+        "cumplimiento_nutricion_pct": "number",
+        "nivel_hambre": [
+            "bajo",
+            "medio",
+            "alto"
+        ],
+        "nivel_ansiedad": [
+            "bajo",
+            "medio",
+            "alto"
+        ],
+        "energia_general": [
+            "baja",
+            "media",
+            "alta"
+        ],
+        "dolor_o_molestias": {
+            "rodilla": false,
+            "espalda": false,
+            "hombro": false,
+            "cadera": false
+        },
+        "percepcion_dificultad": [
+            "muy_facil",
+            "adecuado",
+            "muy_dificil"
+        ]
+    },
+    "metricas_derivadas": {
+        "adherencia_global": {
+            "formula": "(cumplimiento_entrenamiento_pct + cumplimiento_nutricion_pct) / 2"
+        },
+        "tendencia_peso": [
+            "baja",
+            "estable",
+            "sube"
+        ]
+    },
+    "reglas_analisis": [
+        {
+            "if": {
+                "adherencia_global": ">=80",
+                "tendencia_peso": "baja"
+            },
+            "then": {
+                "estado_progreso": "optimo"
+            }
+        },
+        {
+            "if": {
+                "adherencia_global": "<60"
+            },
+            "then": {
+                "estado_progreso": "baja_adherencia"
+            }
+        },
+        {
+            "if": {
+                "nivel_ansiedad": "alto"
+            },
+            "then": {
+                "estado_progreso": "estres_metabolico"
+            }
+        }
+    ],
+    "motor_ajustes_entrenamiento": [
+        {
+            "if": {
+                "percepcion_dificultad": "muy_facil",
+                "adherencia_global": ">=80"
+            },
+            "then": {
+                "accion": "incrementar_estimulo",
+                "detalle": {
+                    "series": "+1",
+                    "variantes_mas_desafiantes": true
+                }
+            }
+        },
+        {
+            "if": {
+                "percepcion_dificultad": "muy_dificil",
+                "nivel_ansiedad": "alto"
+            },
+            "then": {
+                "accion": "reducir_estimulo",
+                "detalle": {
+                    "series": "-1",
+                    "sustituir_ejercicios": "menor_riesgo"
+                }
+            }
+        },
+        {
+            "if": {
+                "dolor_o_molestias": "true"
+            },
+            "then": {
+                "accion": "activar_motor_sustitucion",
+                "prioridad": "salud"
+            }
+        }
+    ],
+    "motor_ajustes_nutricion": [
+        {
+            "if": {
+                "tendencia_peso": "estable",
+                "adherencia_global": ">=80"
+            },
+            "then": {
+                "accion": "ajustar_calorias",
+                "detalle": {
+                    "calorias": "-5%"
+                }
+            }
+        },
+        {
+            "if": {
+                "nivel_hambre": "alto"
+            },
+            "then": {
+                "accion": "ajuste_saciacion",
+                "detalle": {
+                    "incrementar_proteina": true,
+                    "incrementar_fibra": true
+                }
+            }
+        },
+        {
+            "if": {
+                "nivel_ansiedad": "alto"
+            },
+            "then": {
+                "accion": "activar_protocolo_ansiedad",
+                "detalle": {
+                    "rotacion_alimentos": true,
+                    "permitir_flexibilidad_controlada": true
+                }
+            }
+        }
+    ],
+    "salida_usuario": {
+        "mensaje_dinamico": true,
+        "mostrar": [
+            "estado_progreso",
+            "ajustes_aplicados",
+            "recomendacion_semanal"
+        ]
+    },
+    "output_sistema": {
+        "impacta_en": [
+            "motor_entrenamiento",
+            "motor_nutricional",
+            "periodizacion_mensual"
+        ],
+        "tipo": "ajuste_automatico_sin_intervencion"
+    }
+}

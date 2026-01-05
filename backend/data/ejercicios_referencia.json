@@ -1,0 +1,57 @@
+[
+    {
+        "ID": 1,
+        "Nombre": "Sentadilla con Barra (Back Squat)",
+        "Categoria": "Leg",
+        "Nivel": "Intermedio",
+        "URL_Video_Loop": "https://assets.mi-app-fitness.com/videos/back-squat-loop.mp4",
+        "Instrucciones_Tecnicas": "Mantener la espalda neutra, descender hasta que los muslos estén paralelos al suelo, empujar con los talones.",
+        "Series_Sugeridas": 4,
+        "Reps_Sugeridas": "8-12",
+        "ID_Variante": null
+    },
+    {
+        "ID": 2,
+        "Nombre": "Press de Banca con Barra",
+        "Categoria": "Empuje",
+        "Nivel": "Principiante",
+        "URL_Video_Loop": "https://assets.mi-app-fitness.com/videos/bench-press-loop.mp4",
+        "Instrucciones_Tecnicas": "Pies apoyados firmemente, bajar la barra hasta el pecho medio, extender codos sin bloquear totalmente.",
+        "Series_Sugeridas": 3,
+        "Reps_Sugeridas": "10-12",
+        "ID_Variante": 6
+    },
+    {
+        "ID": 3,
+        "Nombre": "Remo con Barra",
+        "Categoria": "Tracción",
+        "Nivel": "Intermedio",
+        "URL_Video_Loop": "https://assets.mi-app-fitness.com/videos/barbell-row-loop.mp4",
+        "Instrucciones_Tecnicas": "Inclinación de torso a 45 grados, traccionar la barra hacia el ombligo, juntar escápulas.",
+        "Series_Sugeridas": 4,
+        "Reps_Sugeridas": "8-10",
+        "ID_Variante": null
+    },
+    {
+        "ID": 4,
+        "Nombre": "Press Militar con Mancuernas",
+        "Categoria": "Empuje",
+        "Nivel": "Intermedio",
+        "URL_Video_Loop": "https://assets.mi-app-fitness.com/videos/shoulder-press-loop.mp4",
+        "Instrucciones_Tecnicas": "Sentado o de pie, empujar mancuernas sobre la cabeza, evitar arquear la zona lumbar.",
+        "Series_Sugeridas": 3,
+        "Reps_Sugeridas": "10-12",
+        "ID_Variante": null
+    },
+    {
+        "ID": 5,
+        "Nombre": "Zancadas (Lunges)",
+        "Categoria": "Leg",
+        "Nivel": "Principiante",
+        "URL_Video_Loop": "https://assets.mi-app-fitness.com/videos/lunges-loop.mp4",
+        "Instrucciones_Tecnicas": "Dar un paso adelante, bajar rodilla trasera casi hasta el suelo, mantener torso erguido.",
+        "Series_Sugeridas": 3,
+        "Reps_Sugeridas": "12 por pierna",
+        "ID_Variante": 7
+    }
+]

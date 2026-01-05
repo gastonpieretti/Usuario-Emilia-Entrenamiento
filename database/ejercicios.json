@@ -1,0 +1,437 @@
+{
+    "metadata": {
+        "version": "1.0",
+        "autor": "Sistema Entrenamiento Automatizado",
+        "ultima_actualizacion": "2025-12-29"
+    },
+    "ejercicios": [
+        {
+            "id": "EX_0001",
+            "nombre": "Sentadilla Libre",
+            "slug": "sentadilla-libre",
+            "descripcion": {
+                "tecnica": "Descenso controlado de cadera manteniendo espalda neutra y talones apoyados.",
+                "usuario": "Baja y sube usando tus piernas manteniendo la espalda derecha."
+            },
+            "clasificacion": {
+                "grupo_muscular_principal": "piernas",
+                "grupo_muscular_secundario": [
+                    "gluteos",
+                    "core"
+                ],
+                "patron_movimiento": "sentadilla",
+                "plano_movimiento": "sagital"
+            },
+            "perfil_entrenamiento": {
+                "nivel_minimo": "principiante",
+                "nivel_maximo": "intermedio",
+                "impacto_articular": "bajo",
+                "impacto_metabolico": "medio",
+                "riesgo_tecnico": "bajo"
+            },
+            "objetivos": {
+                "principal": "fuerza",
+                "secundarios": [
+                    "salud",
+                    "movilidad"
+                ],
+                "tipo_estimulo": "fuerza",
+                "apto_quema_grasa": true
+            },
+            "restricciones_salud": {
+                "rodilla": false,
+                "espalda": false,
+                "hombro": false,
+                "cadera": false,
+                "apto_sobrepeso": true
+            },
+            "contexto": {
+                "equipamiento": "none",
+                "entorno": "casa",
+                "espacio": "reducido"
+            },
+            "parametros_ejecucion": {
+                "series_sugeridas": [
+                    3,
+                    4
+                ],
+                "repeticiones_sugeridas": [
+                    12,
+                    15,
+                    20
+                ],
+                "tiempo_tension_seg": 40,
+                "descanso_seg": [
+                    60,
+                    90
+                ]
+            },
+            "progresiones": {
+                "facil": null,
+                "dificil": "EX_0002",
+                "tipo": "carga"
+            },
+            "media": {
+                "video_url": "https://media.fitnessapp.com/ex_0001.mp4",
+                "thumbnail": "https://media.fitnessapp.com/ex_0001.jpg"
+            },
+            "estado": {
+                "activo": true,
+                "version": 1
+            }
+        },
+        {
+            "id": "EX_0002",
+            "nombre": "Sentadilla Goblet",
+            "slug": "sentadilla-goblet",
+            "descripcion": {
+                "tecnica": "Sentadilla con carga frontal (mancuerna o pesa rusa) pegada al pecho.",
+                "usuario": "Sujeta una mancuerna frente al pecho y realiza una sentadilla profunda."
+            },
+            "clasificacion": {
+                "grupo_muscular_principal": "piernas",
+                "grupo_muscular_secundario": [
+                    "gluteos",
+                    "core"
+                ],
+                "patron_movimiento": "sentadilla",
+                "plano_movimiento": "sagital"
+            },
+            "perfil_entrenamiento": {
+                "nivel_minimo": "principiante",
+                "nivel_maximo": "intermedio",
+                "impacto_articular": "bajo",
+                "impacto_metabolico": "medio",
+                "riesgo_tecnico": "bajo"
+            },
+            "objetivos": {
+                "principal": "hipertrofia",
+                "secundarios": [
+                    "fuerza"
+                ],
+                "tipo_estimulo": "fuerza",
+                "apto_quema_grasa": true
+            },
+            "restricciones_salud": {
+                "rodilla": false,
+                "espalda": false,
+                "hombro": false,
+                "cadera": false,
+                "apto_sobrepeso": true
+            },
+            "contexto": {
+                "equipamiento": "mancuernas",
+                "entorno": "gimnasio",
+                "espacio": "reducido"
+            },
+            "parametros_ejecucion": {
+                "series_sugeridas": [
+                    3,
+                    4
+                ],
+                "repeticiones_sugeridas": [
+                    8,
+                    10,
+                    12
+                ],
+                "tiempo_tension_seg": 35,
+                "descanso_seg": [
+                    90
+                ]
+            },
+            "progresiones": {
+                "facil": "EX_0001",
+                "dificil": null,
+                "tipo": "carga"
+            },
+            "media": {
+                "video_url": "https://media.fitnessapp.com/ex_0002.mp4",
+                "thumbnail": "https://media.fitnessapp.com/ex_0002.jpg"
+            },
+            "estado": {
+                "activo": true,
+                "version": 1
+            }
+        },
+        {
+            "id": "EX_0101",
+            "nombre": "Flexiones en Rodillas",
+            "slug": "flexiones-rodillas",
+            "descripcion": {
+                "tecnica": "Flexión de brazos con apoyo de rodillas, manteniendo alineación cadera-tronco.",
+                "usuario": "Apoya las rodillas y baja el pecho hacia el suelo manteniendo el cuerpo recto."
+            },
+            "clasificacion": {
+                "grupo_muscular_principal": "pecho",
+                "grupo_muscular_secundario": [
+                    "brazos"
+                ],
+                "patron_movimiento": "empuje",
+                "plano_movimiento": "transversal"
+            },
+            "perfil_entrenamiento": {
+                "nivel_minimo": "principiante",
+                "nivel_maximo": "principiante",
+                "impacto_articular": "bajo",
+                "impacto_metabolico": "bajo",
+                "riesgo_tecnico": "bajo"
+            },
+            "objetivos": {
+                "principal": "salud",
+                "secundarios": [],
+                "tipo_estimulo": "resistencia",
+                "apto_quema_grasa": true
+            },
+            "restricciones_salud": {
+                "rodilla": false,
+                "espalda": false,
+                "hombro": false,
+                "cadera": false,
+                "apto_sobrepeso": true
+            },
+            "contexto": {
+                "equipamiento": "none",
+                "entorno": "casa",
+                "espacio": "reducido"
+            },
+            "parametros_ejecucion": {
+                "series_sugeridas": [
+                    3
+                ],
+                "repeticiones_sugeridas": [
+                    10,
+                    12,
+                    15
+                ],
+                "tiempo_tension_seg": 30,
+                "descanso_seg": [
+                    60
+                ]
+            },
+            "progresiones": {
+                "facil": null,
+                "dificil": "EX_0102",
+                "tipo": "palanca"
+            },
+            "media": {
+                "video_url": "https://media.fitnessapp.com/ex_0101.mp4",
+                "thumbnail": "https://media.fitnessapp.com/ex_0101.jpg"
+            },
+            "estado": {
+                "activo": true,
+                "version": 1
+            }
+        },
+        {
+            "id": "EX_0102",
+            "nombre": "Flexiones de Brazos",
+            "slug": "flexiones-brazos",
+            "descripcion": {
+                "tecnica": "Push-up tradicional con apoyo de pies y manos, bloqueo de core.",
+                "usuario": "Baja el pecho hacia el suelo con el cuerpo totalmente recto y vuelve a subir."
+            },
+            "clasificacion": {
+                "grupo_muscular_principal": "pecho",
+                "grupo_muscular_secundario": [
+                    "brazos",
+                    "core"
+                ],
+                "patron_movimiento": "empuje",
+                "plano_movimiento": "transversal"
+            },
+            "perfil_entrenamiento": {
+                "nivel_minimo": "intermedio",
+                "nivel_maximo": "intermedio",
+                "impacto_articular": "medio",
+                "impacto_metabolico": "medio",
+                "riesgo_tecnico": "medio"
+            },
+            "objetivos": {
+                "principal": "fuerza",
+                "secundarios": [
+                    "hipertrofia"
+                ],
+                "tipo_estimulo": "fuerza",
+                "apto_quema_grasa": true
+            },
+            "restricciones_salud": {
+                "rodilla": false,
+                "espalda": false,
+                "hombro": false,
+                "cadera": false,
+                "apto_sobrepeso": false
+            },
+            "contexto": {
+                "equipamiento": "none",
+                "entorno": "casa",
+                "espacio": "reducido"
+            },
+            "parametros_ejecucion": {
+                "series_sugeridas": [
+                    3,
+                    4
+                ],
+                "repeticiones_sugeridas": [
+                    8,
+                    12,
+                    15
+                ],
+                "tiempo_tension_seg": 40,
+                "descanso_seg": [
+                    60,
+                    90
+                ]
+            },
+            "progresiones": {
+                "facil": "EX_0101",
+                "dificil": null,
+                "tipo": "palanca"
+            },
+            "media": {
+                "video_url": "https://media.fitnessapp.com/ex_0102.mp4",
+                "thumbnail": "https://media.fitnessapp.com/ex_0102.jpg"
+            },
+            "estado": {
+                "activo": true,
+                "version": 1
+            }
+        },
+        {
+            "id": "EX_0201",
+            "nombre": "Remo con Banda Elástica",
+            "slug": "remo-banda",
+            "descripcion": {
+                "tecnica": "Retracción escapular contra resistencia de banda elástica en bipedestación o sedestación.",
+                "usuario": "Tira de la banda hacia tu abdomen sintiendo cómo tus escápulas se juntan."
+            },
+            "clasificacion": {
+                "grupo_muscular_principal": "espalda",
+                "grupo_muscular_secundario": [
+                    "brazos"
+                ],
+                "patron_movimiento": "traccion",
+                "plano_movimiento": "sagital"
+            },
+            "perfil_entrenamiento": {
+                "nivel_minimo": "principiante",
+                "nivel_maximo": "intermedio",
+                "impacto_articular": "bajo",
+                "impacto_metabolico": "bajo",
+                "riesgo_tecnico": "bajo"
+            },
+            "objetivos": {
+                "principal": "salud",
+                "secundarios": [
+                    "hipertrofia"
+                ],
+                "tipo_estimulo": "resistencia",
+                "apto_quema_grasa": true
+            },
+            "restricciones_salud": {
+                "rodilla": false,
+                "espalda": false,
+                "hombro": false,
+                "cadera": false,
+                "apto_sobrepeso": true
+            },
+            "contexto": {
+                "equipamiento": "bandas",
+                "entorno": "casa",
+                "espacio": "reducido"
+            },
+            "parametros_ejecucion": {
+                "series_sugeridas": [
+                    3,
+                    4
+                ],
+                "repeticiones_sugeridas": [
+                    12,
+                    15,
+                    20
+                ],
+                "tiempo_tension_seg": 45,
+                "descanso_seg": [
+                    60
+                ]
+            },
+            "progresiones": {
+                "facil": null,
+                "dificil": null,
+                "tipo": "resistencia"
+            },
+            "media": {
+                "video_url": "https://media.fitnessapp.com/ex_0201.mp4",
+                "thumbnail": "https://media.fitnessapp.com/ex_0201.jpg"
+            },
+            "estado": {
+                "activo": true,
+                "version": 1
+            }
+        },
+        {
+            "id": "EX_0301",
+            "nombre": "Plancha Abdominal",
+            "slug": "plancha-abdominal",
+            "descripcion": {
+                "tecnica": "Isométrico de core manteniendo posición horizontal apoyado en antebrazos.",
+                "usuario": "Mantén el cuerpo recto como una tabla apoyado en tus antebrazos."
+            },
+            "clasificacion": {
+                "grupo_muscular_principal": "core",
+                "grupo_muscular_secundario": [],
+                "patron_movimiento": "core",
+                "plano_movimiento": "sagital"
+            },
+            "perfil_entrenamiento": {
+                "nivel_minimo": "principiante",
+                "nivel_maximo": "avanzado",
+                "impacto_articular": "bajo",
+                "impacto_metabolico": "bajo",
+                "riesgo_tecnico": "medio"
+            },
+            "objetivos": {
+                "principal": "salud",
+                "secundarios": [
+                    "fuerza"
+                ],
+                "tipo_estimulo": "estabilidad",
+                "apto_quema_grasa": false
+            },
+            "restricciones_salud": {
+                "rodilla": false,
+                "espalda": false,
+                "hombro": false,
+                "cadera": false,
+                "apto_sobrepeso": true
+            },
+            "contexto": {
+                "equipamiento": "none",
+                "entorno": "casa",
+                "espacio": "reducido"
+            },
+            "parametros_ejecucion": {
+                "series_sugeridas": [
+                    3
+                ],
+                "repeticiones_sugeridas": null,
+                "tiempo_tension_seg": 30,
+                "descanso_seg": [
+                    45
+                ]
+            },
+            "progresiones": {
+                "facil": null,
+                "dificil": null,
+                "tipo": "inestabilidad"
+            },
+            "media": {
+                "video_url": "https://media.fitnessapp.com/ex_0301.mp4",
+                "thumbnail": "https://media.fitnessapp.com/ex_0301.jpg"
+            },
+            "estado": {
+                "activo": true,
+                "version": 1
+            }
+        }
+    ]
+}

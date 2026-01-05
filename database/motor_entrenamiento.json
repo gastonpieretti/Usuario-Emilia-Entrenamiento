@@ -1,0 +1,222 @@
+{
+    "motor_entrenamiento": {
+        "version": "1.0",
+        "nombre": "Motor Central de Programación Automatizada",
+        "autor": "Sistema Profesional de Entrenamiento"
+    },
+    "inputs_obligatorios": {
+        "nivel_usuario": [
+            "principiante",
+            "intermedio",
+            "avanzado"
+        ],
+        "objetivo_principal": [
+            "quema_grasa",
+            "hipertrofia",
+            "salud"
+        ],
+        "frecuencia_semanal": [
+            3,
+            4,
+            5
+        ],
+        "duracion_plan_meses": [
+            1,
+            2,
+            3,
+            4
+        ],
+        "equipamiento_disponible": [],
+        "limitaciones_salud": [],
+        "entorno": [
+            "casa",
+            "gimnasio"
+        ]
+    },
+    "plantillas_base": {
+        "3_dias": [
+            "A",
+            "B",
+            "A"
+        ],
+        "4_dias": [
+            "A",
+            "B",
+            "A",
+            "C"
+        ],
+        "5_dias": [
+            "A",
+            "B",
+            "C",
+            "A",
+            "D"
+        ]
+    },
+    "definicion_plantillas": {
+        "A": {
+            "enfoque": [
+                "piernas",
+                "core"
+            ],
+            "patrones": [
+                "sentadilla",
+                "bisagra",
+                "core"
+            ]
+        },
+        "B": {
+            "enfoque": [
+                "empuje",
+                "traccion"
+            ],
+            "patrones": [
+                "empuje",
+                "traccion"
+            ]
+        },
+        "C": {
+            "enfoque": [
+                "full_body"
+            ],
+            "patrones": [
+                "sentadilla",
+                "empuje",
+                "traccion"
+            ]
+        },
+        "D": {
+            "enfoque": [
+                "metabolico"
+            ],
+            "patrones": [
+                "circuito"
+            ]
+        }
+    },
+    "reglas_seleccion_ejercicios": [
+        {
+            "if": {
+                "nivel": "principiante"
+            },
+            "then": {
+                "permitir_riesgo_tecnico": [
+                    "bajo"
+                ],
+                "impacto_articular_max": "medio"
+            }
+        },
+        {
+            "if": {
+                "objetivo_principal": "quema_grasa"
+            },
+            "then": {
+                "apto_quema_grasa": true,
+                "priorizar_multicompuestos": true
+            }
+        },
+        {
+            "if": {
+                "limitacion": "rodilla"
+            },
+            "then": {
+                "excluir_patron": "sentadilla"
+            }
+        }
+    ],
+    "reglas_volumen_intensidad": {
+        "principiante": {
+            "series": [
+                2,
+                3
+            ],
+            "repeticiones": [
+                12,
+                15,
+                20
+            ],
+            "descanso_seg": [
+                60,
+                90
+            ]
+        },
+        "intermedio": {
+            "series": [
+                3,
+                4
+            ],
+            "repeticiones": [
+                8,
+                12,
+                15
+            ],
+            "descanso_seg": [
+                60
+            ]
+        },
+        "avanzado": {
+            "series": [
+                4,
+                5
+            ],
+            "repeticiones": [
+                6,
+                10,
+                12
+            ],
+            "descanso_seg": [
+                45,
+                60
+            ]
+        }
+    },
+    "reglas_periodizacion_mensual": {
+        "mes_1": {
+            "objetivo": "adaptacion",
+            "multiplicador_volumen": 1.0,
+            "cambio_ejercicios": false
+        },
+        "mes_2": {
+            "objetivo": "progresion",
+            "multiplicador_volumen": 1.1,
+            "cambio_ejercicios": true
+        },
+        "mes_3": {
+            "objetivo": "intensificacion",
+            "multiplicador_volumen": 1.2,
+            "reduccion_descanso_seg": 15
+        },
+        "mes_4": {
+            "objetivo": "consolidacion",
+            "variantes_avanzadas": true
+        }
+    },
+    "motor_sustituciones": {
+        "si_ejercicio_no_disponible": {
+            "accion": "buscar_mismo_patron",
+            "prioridad": [
+                "mismo_grupo_muscular",
+                "mismo_estimulo"
+            ]
+        },
+        "si_usuario_reporta_dolor": {
+            "accion": "sustituir",
+            "nivel_estimulo": "inferior"
+        }
+    },
+    "feedback_loop": {
+        "si_completa_todas_las_reps": "aplicar_progresion",
+        "si_falla": "mantener_estimulo",
+        "si_dolor": "activar_sustitucion"
+    },
+    "output": {
+        "tipo": "plan_semanal_periodizado",
+        "incluye": [
+            "ejercicios_por_dia",
+            "series",
+            "repeticiones",
+            "descansos",
+            "variacion_mensual"
+        ]
+    }
+}

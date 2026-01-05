@@ -1,0 +1,39 @@
+﻿--- TESTING PRO RULES V1 (GASTON METHOD) ---
+Generating 4 months for ADELGAZAR...
+[Orchestrator] Iniciando generaci├│n 90 d├¡as (4 meses) para: 9
+[Orchestrator] Limpiando datos previos...
+[Orchestrator] Generando Plan Nutricional...
+[Orchestrator] Blueprint generado: [{"dia":1,"enfoque":["PIERNAS","CORE"]},{"dia":2,"enfoque":["PUSH","PULL"]},{"dia":3,"enfoque":["FULL_BODY"]}]
+[Orchestrator] Generando Mes 1...
+[Progression] Aplicando reglas para Mes 1
+[Progression] Aplicando reglas para Mes 1
+[Progression] Aplicando reglas para Mes 1
+[Orchestrator] Generando Mes 2...
+[Progression] Aplicando reglas para Mes 2
+[Progression] Aplicando reglas para Mes 2
+[Progression] Aplicando reglas para Mes 2
+[Orchestrator] Generando Mes 3...
+[Progression] Aplicando reglas para Mes 3
+[Progression] Aplicando reglas para Mes 3
+[Progression] Aplicando reglas para Mes 3
+[Orchestrator] Generando Mes 4...
+[Progression] Aplicando reglas para Mes 4
+[Progression] Aplicando reglas para Mes 4
+[Progression] Aplicando reglas para Mes 4
+[Orchestrator] Generaci├│n completa.
+Generated 12 routines.
+
+Verifying Routine: Mes 1 - Lunes
+Exercise Sequence: WARMUP(MOVILIDAD) -> PRINCIPAL(CUADRICEPS) -> COMPLEMENTARIO(GLUTEOS) -> COMPLEMENTARIO(CUADRICEPS) -> COMPLEMENTARIO(CORE)
+Warmup Rule: PASSED
+Month 1 Sets: 3, Reps: 12-20, Rest: 60s
+Goal Volume (M1): PASSED
+Month 2 Sets: 4 (Expected > 3)
+Month 2 Progression: PASSED
+Month 3 Rest: 51s (Expected < 60s)
+Month 3 Progression: PASSED
+
+Checking Hard Blocks (Consecutive Patterns)...
+Pattern Rule: PASSED
+
+--- TESTING COMPLETE ---

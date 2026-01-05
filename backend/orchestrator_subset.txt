@@ -1,0 +1,30 @@
+﻿                }
+            });
+
+            // BLOQUE: SelecciÃ³n por Reglas de SesiÃ³n (STRICT 1.0)
+            let selectedForDay: any[] = [];
+            const prevIds = previousMonthExerciseIdsByDay[dayBlueprint.dia] || [];
+            let dailyFatigue = 0;
+            const MAX_FATIGUE = 12; // Cap per session
+
+            for (const focalPoint of dayBlueprint.enfoque) {
+                let candidates = pool.filter(ex => {
+                    const nameLower = ex.nombre.toLowerCase();
+                    const muscle = ex.grupo_muscular_primario || '';
+
+                    // Contract Mapping
+                    if (focalPoint === 'PIERNAS') return muscle === 'PIERNAS' || ex.categoria === 'PIERNAS';
+                    if (focalPoint === 'CORE') return ex.categoria === 'CORE' || muscle === 'CORE';
+                    if (focalPoint === 'PUSH') return muscle === 'PECHO' || muscle === 'HOMBROS' || muscle === 'TRICEPS' || nameLower.includes('press');
+                    if (focalPoint === 'PULL') return muscle === 'ESPALDA' || muscle === 'BICEPS' || nameLower.includes('remo') || nameLower.includes('jalon');
+                    if (focalPoint === 'FULL_BODY') return true;
+                    if (focalPoint === 'CARDIO') return ex.categoria === 'CARDIO';
+                    return false;
+                });
+
+                // Rule: Never exceed frecuencia_max_semanal
+                candidates = candidates.filter(ex => (weeklyFrequency[ex.id] || 0) < (ex.frecuencia_max_semanal || 2));
+
+                // Rule: Respect fatiga_neuromuscular
+                candidates = candidates.filter(ex => (dailyFatigue + (ex.fatiga_neuromuscular || 1)) <= MAX_FATIGUE);
+

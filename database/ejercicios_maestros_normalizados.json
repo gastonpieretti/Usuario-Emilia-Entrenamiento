@@ -1,0 +1,375 @@
+{
+    "metadata": {
+        "version": "1.1",
+        "tipo": "exercise_master_database_normalized"
+    },
+    "ejercicios": [
+        {
+            "exercise_id": "EX_0001",
+            "nombre": "Sentadilla Libre",
+            "categoria": "FUERZA",
+            "grupo_muscular_primario": "PIERNAS",
+            "grupos_musculares_secundarios": [
+                "GLUTEOS",
+                "CORE"
+            ],
+            "patron_movimiento": "SENTADILLA",
+            "zona_corporal": "INFERIOR",
+            "equipamiento": [
+                "PESO_CORPORAL"
+            ],
+            "lugar": [
+                "CASA",
+                "GIMNASIO"
+            ],
+            "nivel_permitido": [
+                "PRINCIPIANTE",
+                "INTERMEDIO"
+            ],
+            "impacto": "BAJO",
+            "riesgos": {
+                "rodilla": "SEGURO",
+                "columna": "SEGURO",
+                "hombro": "SEGURO"
+            },
+            "objetivos_compatibles": [
+                "ADELGAZAR",
+                "TONIFICAR",
+                "FUERZA"
+            ],
+            "fatiga_neuromuscular": "BAJA",
+            "orden_recomendado": "PRINCIPAL",
+            "frecuencia_max_semanal": 2,
+            "dosis_dinamica": {
+                "ADELGAZAR": {
+                    "series": 3,
+                    "reps": "15-20",
+                    "tiempo": null,
+                    "descanso": "45s"
+                },
+                "TONIFICAR": {
+                    "series": 3,
+                    "reps": "12-15",
+                    "tiempo": null,
+                    "descanso": "60s"
+                },
+                "FUERZA": {
+                    "series": 4,
+                    "reps": "8-12",
+                    "tiempo": null,
+                    "descanso": "90s"
+                }
+            },
+            "uso_motor": {
+                "ultimo_mes_usado": null,
+                "veces_usado_total": 0
+            },
+            "instrucciones": "Baja y sube usando tus piernas manteniendo la espalda derecha.",
+            "video_url": "https://media.fitnessapp.com/ex_0001.mp4"
+        },
+        {
+            "exercise_id": "EX_0002",
+            "nombre": "Sentadilla Goblet",
+            "categoria": "FUERZA",
+            "grupo_muscular_primario": "PIERNAS",
+            "grupos_musculares_secundarios": [
+                "GLUTEOS",
+                "CORE"
+            ],
+            "patron_movimiento": "SENTADILLA",
+            "zona_corporal": "INFERIOR",
+            "equipamiento": [
+                "MANCUERNAS"
+            ],
+            "lugar": [
+                "GIMNASIO"
+            ],
+            "nivel_permitido": [
+                "PRINCIPIANTE",
+                "INTERMEDIO"
+            ],
+            "impacto": "BAJO",
+            "riesgos": {
+                "rodilla": "SEGURO",
+                "columna": "SEGURO",
+                "hombro": "SEGURO"
+            },
+            "objetivos_compatibles": [
+                "ADELGAZAR",
+                "TONIFICAR",
+                "FUERZA"
+            ],
+            "fatiga_neuromuscular": "BAJA",
+            "orden_recomendado": "PRINCIPAL",
+            "frecuencia_max_semanal": 2,
+            "dosis_dinamica": {
+                "ADELGAZAR": {
+                    "series": 3,
+                    "reps": "12-15",
+                    "tiempo": null,
+                    "descanso": "60s"
+                },
+                "TONIFICAR": {
+                    "series": 4,
+                    "reps": "10-12",
+                    "tiempo": null,
+                    "descanso": "60s"
+                },
+                "FUERZA": {
+                    "series": 4,
+                    "reps": "6-10",
+                    "tiempo": null,
+                    "descanso": "120s"
+                }
+            },
+            "uso_motor": {
+                "ultimo_mes_usado": null,
+                "veces_usado_total": 0
+            },
+            "instrucciones": "Sujeta una mancuerna frente al pecho y realiza una sentadilla profunda.",
+            "video_url": "https://media.fitnessapp.com/ex_0002.mp4"
+        },
+        {
+            "exercise_id": "EX_0101",
+            "nombre": "Flexiones en Rodillas",
+            "categoria": "FUERZA",
+            "grupo_muscular_primario": "PECHO",
+            "grupos_musculares_secundarios": [
+                "BRAZOS"
+            ],
+            "patron_movimiento": "EMPUJE",
+            "zona_corporal": "SUPERIOR",
+            "equipamiento": [
+                "PESO_CORPORAL"
+            ],
+            "lugar": [
+                "CASA"
+            ],
+            "nivel_permitido": [
+                "PRINCIPIANTE"
+            ],
+            "impacto": "BAJO",
+            "riesgos": {
+                "rodilla": "SEGURO",
+                "columna": "SEGURO",
+                "hombro": "SEGURO"
+            },
+            "objetivos_compatibles": [
+                "ADELGAZAR",
+                "TONIFICAR",
+                "FUERZA"
+            ],
+            "fatiga_neuromuscular": "BAJA",
+            "orden_recomendado": "PRINCIPAL",
+            "frecuencia_max_semanal": 2,
+            "dosis_dinamica": {
+                "ADELGAZAR": {
+                    "series": 3,
+                    "reps": "15-20",
+                    "tiempo": null,
+                    "descanso": "45s"
+                },
+                "TONIFICAR": {
+                    "series": 3,
+                    "reps": "12-15",
+                    "tiempo": null,
+                    "descanso": "60s"
+                },
+                "FUERZA": {
+                    "series": 3,
+                    "reps": "10-12",
+                    "tiempo": null,
+                    "descanso": "60s"
+                }
+            },
+            "uso_motor": {
+                "ultimo_mes_usado": null,
+                "veces_usado_total": 0
+            },
+            "instrucciones": "Apoya las rodillas y baja el pecho hacia el suelo manteniendo el cuerpo recto.",
+            "video_url": "https://media.fitnessapp.com/ex_0101.mp4"
+        },
+        {
+            "exercise_id": "EX_0102",
+            "nombre": "Flexiones de Brazos",
+            "categoria": "FUERZA",
+            "grupo_muscular_primario": "PECHO",
+            "grupos_musculares_secundarios": [
+                "BRAZOS",
+                "CORE"
+            ],
+            "patron_movimiento": "EMPUJE",
+            "zona_corporal": "SUPERIOR",
+            "equipamiento": [
+                "PESO_CORPORAL"
+            ],
+            "lugar": [
+                "CASA"
+            ],
+            "nivel_permitido": [
+                "INTERMEDIO"
+            ],
+            "impacto": "MEDIO",
+            "riesgos": {
+                "rodilla": "SEGURO",
+                "columna": "SEGURO",
+                "hombro": "SEGURO"
+            },
+            "objetivos_compatibles": [
+                "ADELGAZAR",
+                "TONIFICAR",
+                "FUERZA"
+            ],
+            "fatiga_neuromuscular": "MEDIA",
+            "orden_recomendado": "PRINCIPAL",
+            "frecuencia_max_semanal": 2,
+            "dosis_dinamica": {
+                "ADELGAZAR": {
+                    "series": 3,
+                    "reps": "12-15",
+                    "tiempo": null,
+                    "descanso": "60s"
+                },
+                "TONIFICAR": {
+                    "series": 4,
+                    "reps": "10-12",
+                    "tiempo": null,
+                    "descanso": "60s"
+                },
+                "FUERZA": {
+                    "series": 4,
+                    "reps": "8-10",
+                    "tiempo": null,
+                    "descanso": "90s"
+                }
+            },
+            "uso_motor": {
+                "ultimo_mes_usado": null,
+                "veces_usado_total": 0
+            },
+            "instrucciones": "Baja el pecho hacia el suelo con el cuerpo totalmente recto y vuelve a subir.",
+            "video_url": "https://media.fitnessapp.com/ex_0102.mp4"
+        },
+        {
+            "exercise_id": "EX_0201",
+            "nombre": "Remo con Banda Elástica",
+            "categoria": "FUERZA",
+            "grupo_muscular_primario": "ESPALDA",
+            "grupos_musculares_secundarios": [
+                "BRAZOS"
+            ],
+            "patron_movimiento": "TRACCION",
+            "zona_corporal": "SUPERIOR",
+            "equipamiento": [
+                "BANDAS"
+            ],
+            "lugar": [
+                "CASA"
+            ],
+            "nivel_permitido": [
+                "PRINCIPIANTE",
+                "INTERMEDIO"
+            ],
+            "impacto": "BAJO",
+            "riesgos": {
+                "rodilla": "SEGURO",
+                "columna": "SEGURO",
+                "hombro": "SEGURO"
+            },
+            "objetivos_compatibles": [
+                "ADELGAZAR",
+                "TONIFICAR",
+                "FUERZA"
+            ],
+            "fatiga_neuromuscular": "BAJA",
+            "orden_recomendado": "PRINCIPAL",
+            "frecuencia_max_semanal": 3,
+            "dosis_dinamica": {
+                "ADELGAZAR": {
+                    "series": 3,
+                    "reps": "15-20",
+                    "tiempo": null,
+                    "descanso": "45s"
+                },
+                "TONIFICAR": {
+                    "series": 3,
+                    "reps": "12-15",
+                    "tiempo": null,
+                    "descanso": "60s"
+                },
+                "FUERZA": {
+                    "series": 4,
+                    "reps": "10-12",
+                    "tiempo": null,
+                    "descanso": "60s"
+                }
+            },
+            "uso_motor": {
+                "ultimo_mes_usado": null,
+                "veces_usado_total": 0
+            },
+            "instrucciones": "Tira de la banda hacia tu abdomen sintiendo cómo tus escápulas se juntan.",
+            "video_url": "https://media.fitnessapp.com/ex_0201.mp4"
+        },
+        {
+            "exercise_id": "EX_0301",
+            "nombre": "Plancha Abdominal",
+            "categoria": "CORE",
+            "grupo_muscular_primario": "CORE",
+            "grupos_musculares_secundarios": [],
+            "patron_movimiento": "CORE",
+            "zona_corporal": "CORE",
+            "equipamiento": [
+                "PESO_CORPORAL"
+            ],
+            "lugar": [
+                "CASA"
+            ],
+            "nivel_permitido": [
+                "PRINCIPIANTE",
+                "INTERMEDIO",
+                "AVANZADO"
+            ],
+            "impacto": "BAJO",
+            "riesgos": {
+                "rodilla": "SEGURO",
+                "columna": "SEGURO",
+                "hombro": "SEGURO"
+            },
+            "objetivos_compatibles": [
+                "ADELGAZAR",
+                "TONIFICAR",
+                "FUERZA"
+            ],
+            "fatiga_neuromuscular": "BAJA",
+            "orden_recomendado": "COMPLEMENTARIO",
+            "frecuencia_max_semanal": 4,
+            "dosis_dinamica": {
+                "ADELGAZAR": {
+                    "series": 3,
+                    "reps": null,
+                    "tiempo": "30s",
+                    "descanso": "30s"
+                },
+                "TONIFICAR": {
+                    "series": 3,
+                    "reps": null,
+                    "tiempo": "45s",
+                    "descanso": "45s"
+                },
+                "FUERZA": {
+                    "series": 4,
+                    "reps": null,
+                    "tiempo": "60s",
+                    "descanso": "60s"
+                }
+            },
+            "uso_motor": {
+                "ultimo_mes_usado": null,
+                "veces_usado_total": 0
+            },
+            "instrucciones": "Mantén el cuerpo recto como una tabla apoyado en tus antebrazos.",
+            "video_url": "https://media.fitnessapp.com/ex_0301.mp4"
+        }
+    ]
+}

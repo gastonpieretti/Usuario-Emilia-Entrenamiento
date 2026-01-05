@@ -1,0 +1,195 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:Miami323@localhost:5432/miappfitness?schema=public"
+}
+
+model Diet {
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  title          String
+  description    String?
+  createdAt      DateTime @default(now())
+  carbG          Int?
+  fatG           Int?
+  mealsStructure String?
+  proteinG       Int?
+  targetCalories Int?
+  User           User     @relation(fields: [userId], references: [id])
+}
+
+model Exercise {
+  id                      Int                @id @default(autoincrement())
+  categoria               String
+  idVariante              Int?
+  instruccionesTecnicas   String
+  nivel                   String
+  nombre                  String
+  repsSugeridas           String
+  seriesSugeridas         Int
+  urlVideoLoop            String
+  equipamiento            String[]
+  impacto                 String?
+  lugar                   String[]
+  nivel_permitido         String[]
+  riesgo_columna          String?
+  riesgo_hombro           String?
+  riesgo_rodilla          String?
+  fatiga_neuromuscular    Int?
+  frecuencia_max_semanal  Int?
+  grupo_muscular_primario String?
+  patron_movimiento       String?
+  orden_recomendado       String?
+  RoutineExercise         RoutineExercise[]
+  TemplateExercise        TemplateExercise[]
+}
+
+model Message {
+  id                            Int      @id @default(autoincrement())
+  content                       String
+  senderId                      Int
+  receiverId                    Int
+  isRead                        Boolean  @default(false)
+  createdAt                     DateTime @default(now())
+  User_Message_receiverIdToUser User     @relation("Message_receiverIdToUser", fields: [receiverId], references: [id])
+  User_Message_senderIdToUser   User     @relation("Message_senderIdToUser", fields: [senderId], references: [id])
+}
+
+model Progress {
+  id     Int      @id @default(autoincrement())
+  userId Int
+  weight Float
+  waist  Float?
+  legs   Float?
+  hips   Float?
+  date   DateTime @default(now())
+  User   User     @relation(fields: [userId], references: [id])
+}
+
+model Routine {
+  id              Int               @id @default(autoincrement())
+  userId          Int
+  title           String
+  description     String?
+  weekDay         String
+  createdAt       DateTime          @default(now())
+  order           Int               @default(0)
+  isApproved      Boolean           @default(false)
+  blueprint       Json?
+  month           Int               @default(1)
+  User            User              @relation(fields: [userId], references: [id])
+  RoutineExercise RoutineExercise[]
+  RoutineHistory  RoutineHistory[]
+}
+
+model RoutineExercise {
+  id         Int      @id @default(autoincrement())
+  routineId  Int
+  exerciseId Int
+  sets       Int
+  reps       String
+  restTime   String
+  order      Int      @default(0)
+  isSuperset Boolean  @default(false)
+  Exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  Routine    Routine  @relation(fields: [routineId], references: [id])
+}
+
+model RoutineHistory {
+  id         Int      @id @default(autoincrement())
+  routineId  Int
+  userId     Int
+  data       Json
+  changeType String
+  createdAt  DateTime @default(now())
+  Routine    Routine  @relation(fields: [routineId], references: [id], onDelete: Cascade)
+  User       User     @relation(fields: [userId], references: [id])
+}
+
+model RoutineTemplate {
+  id               Int                @id @default(autoincrement())
+  name             String
+  description      String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime
+  TemplateExercise TemplateExercise[]
+}
+
+model TemplateExercise {
+  id                Int             @id @default(autoincrement())
+  routineTemplateId Int
+  exerciseId        Int
+  sets              Int
+  reps              String
+  restTime          String
+  order             Int             @default(0)
+  Exercise          Exercise        @relation(fields: [exerciseId], references: [id])
+  RoutineTemplate   RoutineTemplate @relation(fields: [routineTemplateId], references: [id])
+}
+
+model User {
+  id                               Int              @id @default(autoincrement())
+  email                            String           @unique
+  name                             String?
+  lastName                         String?
+  passwordHash                     String
+  role                             Role             @default(client)
+  height                           Float?
+  weight                           Float?
+  age                              Int?
+  createdAt                        DateTime         @default(now())
+  updatedAt                        DateTime
+  hasCompletedOnboarding           Boolean          @default(false)
+  isApproved                       Boolean          @default(false)
+  securityAnswer                   String?
+  securityQuestion                 String?
+  isDeleted                        Boolean          @default(false)
+  planExpiresAt                    DateTime?
+  Diet                             Diet[]
+  Message_Message_receiverIdToUser Message[]        @relation("Message_receiverIdToUser")
+  Message_Message_senderIdToUser   Message[]        @relation("Message_senderIdToUser")
+  Progress                         Progress[]
+  Routine                          Routine[]
+  RoutineHistory                   RoutineHistory[]
+  UserProfile                      UserProfile?
+}
+
+model UserProfile {
+  id                 Int      @id @default(autoincrement())
+  userId             Int      @unique
+  city               String?
+  country            String?
+  whatsapp           String?
+  occupation         String?
+  measurements       String?
+  injuries           String?
+  energyLevel        String?
+  goal               String?
+  experienceLevel    String?
+  trainingLocation   String?
+  equipment          String[]
+  daysPerWeek        Int?
+  mealsPerDay        Int?
+  dislikedFood       String?
+  dietPreference     String?
+  waterIntake        String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime
+  age                Int?
+  gender             String?
+  painColumna        Boolean  @default(false)
+  painHombro         Boolean  @default(false)
+  painRodilla        Boolean  @default(false)
+  height_cm          Float?
+  sessionDurationMin Int?
+  weight_kg          Float?
+  User               User     @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  client
+  admin
+}

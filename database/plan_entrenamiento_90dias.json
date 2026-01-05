@@ -1,0 +1,198 @@
+{
+    "plan_entrenamiento": {
+        "plan_id": "PLAN_90_DIAS",
+        "duracion_meses": 3,
+        "fecha_inicio": "2025-01-01",
+        "fecha_fin": "2025-03-31",
+        "estado": "activo",
+        "origen": "motor_automatico_v1"
+    },
+    "usuario": {
+        "usuario_id": "USR_45821",
+        "nivel": "principiante",
+        "objetivo_principal": "quema_grasa",
+        "objetivos_secundarios": [
+            "salud",
+            "fuerza"
+        ],
+        "frecuencia_semanal": 4,
+        "entorno": "casa",
+        "equipamiento_disponible": [
+            "ninguno",
+            "bandas"
+        ],
+        "limitaciones_salud": {
+            "rodilla": false,
+            "espalda": false,
+            "hombro": false,
+            "cadera": false
+        }
+    },
+    "estructura_global": {
+        "tipo_programa": "semanal",
+        "dias_por_semana": 4,
+        "duracion_sesion_min": 45,
+        "logica_distribucion": "full_body_alternado",
+        "descanso_entre_dias": true
+    },
+    "meses": [
+        {
+            "mes": 1,
+            "status_bloqueo": "desbloqueado",
+            "fecha_apertura": "2025-01-01",
+            "objetivo_mes": "adaptacion_metabolica_y_tecnica",
+            "enfoque": [
+                "tecnica",
+                "volumen_moderado"
+            ],
+            "semanas": [
+                {
+                    "semana": 1,
+                    "dias": [
+                        {
+                            "dia": 1,
+                            "tipo": "full_body_A",
+                            "bloques": [
+                                {
+                                    "bloque": "fuerza_principal",
+                                    "ejercicios": [
+                                        {
+                                            "ejercicio_id": "EX_0001",
+                                            "series": 3,
+                                            "repeticiones": 15,
+                                            "descanso_seg": 60
+                                        },
+                                        {
+                                            "ejercicio_id": "EX_0101",
+                                            "series": 3,
+                                            "repeticiones": 12,
+                                            "descanso_seg": 60
+                                        }
+                                    ]
+                                },
+                                {
+                                    "bloque": "core",
+                                    "ejercicios": [
+                                        {
+                                            "ejercicio_id": "EX_0301",
+                                            "series": 3,
+                                            "tiempo_seg": 30,
+                                            "descanso_seg": 45
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "dia": 2,
+                            "tipo": "full_body_B",
+                            "bloques": [
+                                {
+                                    "bloque": "fuerza_principal",
+                                    "ejercicios": [
+                                        {
+                                            "ejercicio_id": "EX_0201",
+                                            "series": 3,
+                                            "repeticiones": 15,
+                                            "descanso_seg": 60
+                                        },
+                                        {
+                                            "ejercicio_id": "EX_0001",
+                                            "series": 3,
+                                            "repeticiones": 20,
+                                            "descanso_seg": 60
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "dia": 3,
+                            "tipo": "full_body_A",
+                            "bloques": [
+                                {
+                                    "bloque": "fuerza_principal",
+                                    "ejercicios": [
+                                        {
+                                            "ejercicio_id": "EX_0001",
+                                            "series": 4,
+                                            "repeticiones": 15,
+                                            "descanso_seg": 60
+                                        },
+                                        {
+                                            "ejercicio_id": "EX_0101",
+                                            "series": 3,
+                                            "repeticiones": 15,
+                                            "descanso_seg": 60
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "dia": 4,
+                            "tipo": "metabolico",
+                            "bloques": [
+                                {
+                                    "bloque": "circuito",
+                                    "rondas": 3,
+                                    "descanso_entre_rondas_seg": 60,
+                                    "ejercicios": [
+                                        {
+                                            "ejercicio_id": "EX_0001",
+                                            "repeticiones": 20
+                                        },
+                                        {
+                                            "ejercicio_id": "EX_0101",
+                                            "repeticiones": 15
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "mes": 2,
+            "status_bloqueo": "bloqueado",
+            "fecha_apertura": "2025-01-31",
+            "objetivo_mes": "progresion_fuerza_y_resistencia",
+            "enfoque": [
+                "mayor_volumen",
+                "nuevas_variantes"
+            ],
+            "reglas_progresion": {
+                "cambio_ejercicios": true,
+                "incremento_series": 1,
+                "uso_progresiones": true
+            }
+        },
+        {
+            "mes": 3,
+            "status_bloqueo": "bloqueado",
+            "fecha_apertura": "2025-03-02",
+            "objetivo_mes": "intensificacion_y_estimulo_metabolico",
+            "enfoque": [
+                "menos_descanso",
+                "mas_intensidad"
+            ],
+            "reglas_progresion": {
+                "incremento_repeticiones": 2,
+                "descanso_reducido_seg": 15,
+                "finisher_obligatorio": true
+            }
+        }
+    ],
+    "reglas_motor": {
+        "si_usuario_falla_repeticiones": "mantener_estimulo",
+        "si_usuario_completa_facil": "aplicar_progresion",
+        "si_usuario_reporta_dolor": "reemplazar_ejercicio"
+    },
+    "feedback_usuario": {
+        "rpe": true,
+        "dolor_articular": true,
+        "comentarios": true
+    }
+}

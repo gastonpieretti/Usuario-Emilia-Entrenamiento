@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const historyController_1 = require("../controllers/historyController");
+const routineController_1 = require("../controllers/routineController");
+const auth_1 = require("../middleware/auth");
+const router = (0, express_1.Router)();
+router.post('/generate', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.generateRoutine);
+router.get('/', auth_1.isAuthenticated, routineController_1.getRoutines);
+router.get('/exercises/all', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.getAllExercises);
+router.post('/exercises', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.addRoutineExercise);
+router.patch('/:id', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.updateRoutine);
+router.delete('/:id', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.deleteRoutine);
+// History routes
+router.get('/history/user/:userId', auth_1.isAuthenticated, auth_1.isAdmin, historyController_1.getUserRoutineHistory);
+router.get('/:routineId/history', auth_1.isAuthenticated, auth_1.isAdmin, historyController_1.getRoutineHistory);
+router.post('/history/:historyId/restore', auth_1.isAuthenticated, auth_1.isAdmin, historyController_1.restoreRoutine);
+router.patch('/exercises/:id', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.updateRoutineExercise);
+router.delete('/exercises/:id', auth_1.isAuthenticated, auth_1.isAdmin, routineController_1.deleteRoutineExercise);
+exports.default = router;

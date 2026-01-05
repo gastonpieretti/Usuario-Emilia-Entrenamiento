@@ -1,0 +1,146 @@
+{
+    "rutina": {
+        "rutina_id": "RT_2025_0001",
+        "fecha_generacion": "2025-12-29",
+        "estado": "activa",
+        "origen": "motor_automatico_v1"
+    },
+    "usuario": {
+        "usuario_id": "USR_45821",
+        "nivel": "principiante",
+        "objetivo_principal": "quema_grasa",
+        "objetivos_secundarios": [
+            "salud",
+            "fuerza"
+        ],
+        "limitaciones_salud": {
+            "rodilla": false,
+            "espalda": false,
+            "hombro": false,
+            "cadera": false
+        },
+        "equipamiento_disponible": [
+            "ninguno",
+            "bandas"
+        ],
+        "entorno": "casa",
+        "frecuencia_semanal": 3
+    },
+    "estructura_general": {
+        "duracion_aproximada_min": 45,
+        "tipo_rutina": "full_body",
+        "orden_logico": [
+            "calentamiento",
+            "fuerza_principal",
+            "complementarios",
+            "core",
+            "finisher",
+            "vuelta_calma"
+        ]
+    },
+    "bloques": [
+        {
+            "bloque": "calentamiento",
+            "objetivo": "activar articulaciones y sistema nervioso",
+            "ejercicios": [
+                {
+                    "orden": 1,
+                    "ejercicio_id": "EX_0001",
+                    "series": 2,
+                    "repeticiones": 15,
+                    "descanso_seg": 30,
+                    "tempo": "controlado"
+                }
+            ]
+        },
+        {
+            "bloque": "fuerza_principal",
+            "objetivo": "estimular grandes grupos musculares",
+            "ejercicios": [
+                {
+                    "orden": 2,
+                    "ejercicio_id": "EX_0001",
+                    "series": 4,
+                    "repeticiones": 15,
+                    "descanso_seg": 60,
+                    "tempo": "2-1-2"
+                },
+                {
+                    "orden": 3,
+                    "ejercicio_id": "EX_0101",
+                    "series": 3,
+                    "repeticiones": 12,
+                    "descanso_seg": 60,
+                    "tempo": "2-1-2"
+                }
+            ]
+        },
+        {
+            "bloque": "complementarios",
+            "objetivo": "equilibrio muscular",
+            "ejercicios": [
+                {
+                    "orden": 4,
+                    "ejercicio_id": "EX_0201",
+                    "series": 3,
+                    "repeticiones": 15,
+                    "descanso_seg": 45,
+                    "tempo": "controlado"
+                }
+            ]
+        },
+        {
+            "bloque": "core",
+            "objetivo": "estabilidad y control",
+            "ejercicios": [
+                {
+                    "orden": 5,
+                    "ejercicio_id": "EX_0301",
+                    "series": 3,
+                    "tiempo_seg": 30,
+                    "descanso_seg": 45
+                }
+            ]
+        },
+        {
+            "bloque": "finisher",
+            "objetivo": "aumentar gasto calorico",
+            "metodo": "circuito",
+            "ejercicios": [
+                {
+                    "orden": 6,
+                    "ejercicio_id": "EX_0001",
+                    "repeticiones": 20
+                },
+                {
+                    "orden": 7,
+                    "ejercicio_id": "EX_0101",
+                    "repeticiones": 15
+                }
+            ],
+            "rondas": 2,
+            "descanso_entre_rondas_seg": 60
+        }
+    ],
+    "progresion_programada": {
+        "criterio": "cumplimiento_repeticiones",
+        "accion": "aumentar_volumen",
+        "incremento": {
+            "series": 1,
+            "repeticiones": 2
+        },
+        "revision_en_sesiones": 4
+    },
+    "seguridad": {
+        "reglas_activas": [
+            "no_dolor_articular",
+            "priorizar_tecnica",
+            "detener_si_fatiga_extrema"
+        ]
+    },
+    "feedback_usuario": {
+        "registrar_rpe": true,
+        "registrar_dolor": true,
+        "registrar_comentarios": true
+    }
+}

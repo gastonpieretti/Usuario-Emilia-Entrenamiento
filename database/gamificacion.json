@@ -1,0 +1,168 @@
+{
+    "sistema_gamificacion": {
+        "version": "1.0",
+        "nombre": "Motor de Gamificación y Recompensa Conductual",
+        "autor": "Sistema Inteligente de Adherencia"
+    },
+    "principios_base": {
+        "objetivo": "incrementar_adherencia",
+        "enfoque": [
+            "motivacion_intrinseca",
+            "progreso_visible",
+            "recompensa_no_adictiva"
+        ],
+        "evitar": [
+            "castigos",
+            "competencia_toxica"
+        ]
+    },
+    "metricas_rastreables": {
+        "entrenamientos_completados_semana": "number",
+        "cumplimiento_nutricion_pct": "number",
+        "check_in_semanal": "boolean",
+        "constancia_dias": "number",
+        "progreso_personal": [
+            "mejora",
+            "estable",
+            "retroceso"
+        ]
+    },
+    "sistema_puntos": {
+        "acciones": {
+            "entrenamiento_completado": 10,
+            "semana_completa_entrenada": 30,
+            "cumplimiento_nutricion_80": 20,
+            "check_in_semanal": 15,
+            "racha_7_dias": 25,
+            "racha_30_dias": 100
+        },
+        "penalizaciones": {
+            "ninguna": true
+        }
+    },
+    "niveles_usuario": [
+        {
+            "nivel": 1,
+            "nombre": "Inicio Consciente",
+            "puntos_min": 0,
+            "beneficio": "feedback_basico"
+        },
+        {
+            "nivel": 2,
+            "nombre": "Constancia Activa",
+            "puntos_min": 200,
+            "beneficio": "mensajes_motivacionales_personalizados"
+        },
+        {
+            "nivel": 3,
+            "nombre": "Disciplina Interior",
+            "puntos_min": 500,
+            "beneficio": "flexibilidad_controlada_en_nutricion"
+        },
+        {
+            "nivel": 4,
+            "nombre": "Transformación Real",
+            "puntos_min": 1000,
+            "beneficio": "desbloqueo_contenido_exclusivo"
+        }
+    ],
+    "logros_desbloqueables": [
+        {
+            "id": "LOGRO_01",
+            "nombre": "Primera Semana Completa",
+            "condicion": {
+                "entrenamientos_completados_semana": "100%"
+            },
+            "recompensa": {
+                "tipo": "mensaje_refuerzo",
+                "valor": "reconocimiento"
+            }
+        },
+        {
+            "id": "LOGRO_02",
+            "nombre": "Constancia 30 Días",
+            "condicion": {
+                "racha_30_dias": true
+            },
+            "recompensa": {
+                "tipo": "beneficio",
+                "valor": "contenido_premium"
+            }
+        }
+    ],
+    "recompensas_inteligentes": [
+        {
+            "if": {
+                "progreso_personal": "mejora",
+                "constancia_dias": ">=14"
+            },
+            "then": {
+                "recompensa": "aumentar_autonomia",
+                "detalle": {
+                    "permitir_eleccion_ejercicio": true
+                }
+            }
+        },
+        {
+            "if": {
+                "progreso_personal": "estable",
+                "adherencia_baja": true
+            },
+            "then": {
+                "recompensa": "simplificacion",
+                "detalle": {
+                    "reducir_complejidad_plan": true
+                }
+            }
+        },
+        {
+            "if": {
+                "nivel_ansiedad": "alto"
+            },
+            "then": {
+                "recompensa": "contencion",
+                "detalle": {
+                    "activar_audio_reset": true,
+                    "mensajes_calma": true
+                }
+            }
+        }
+    ],
+    "sistema_rachas": {
+        "dias_consecutivos": {
+            "7": "bonus_puntos",
+            "14": "mensaje_refuerzo",
+            "30": "beneficio_especial"
+        },
+        "si_racha_se_rompe": {
+            "accion": "reinicio_sin_penalizacion",
+            "mensaje": "enfoque_reinicio"
+        }
+    },
+    "feedback_visual_usuario": {
+        "mostrar": [
+            "barra_progreso",
+            "nivel_actual",
+            "puntos_acumulados",
+            "proximo_logro"
+        ],
+        "frecuencia": "diaria"
+    },
+    "integracion_con_sistema": {
+        "conecta_con": [
+            "motor_entrenamiento",
+            "motor_nutricional",
+            "seguimiento_semanal",
+            "modulo_psicologico"
+        ],
+        "impacta_en": [
+            "ajustes_plan",
+            "mensajes_usuario",
+            "retencion"
+        ]
+    },
+    "output": {
+        "tipo": "refuerzo_conductual_automatico",
+        "objetivo_final": "adherencia_sostenida"
+    }
+}

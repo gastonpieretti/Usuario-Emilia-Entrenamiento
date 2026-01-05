@@ -1,0 +1,132 @@
+[
+    {
+        "nombre": "Sentadilla Goblet",
+        "categoria": "Leg",
+        "nivel": "Principiante",
+        "urlVideoLoop": "https://assets.miapp.com/sentadilla-goblet.mp4",
+        "instruccionesTecnicas": "Sujetar una pesa contra el pecho, bajar la cadera rompiendo el paralelo manteniendo la espalda recta y pies firmes.",
+        "seriesSugeridas": 3,
+        "repsSugeridas": "12-15",
+        "idVariante": null
+    },
+    {
+        "nombre": "Prensa de Piernas",
+        "categoria": "Leg",
+        "nivel": "Intermedio",
+        "urlVideoLoop": "https://assets.miapp.com/prensa-piernas.mp4",
+        "instruccionesTecnicas": "Apoyar pies a la anchura de hombros, bajar la plataforma controlado sin despegar la zona lumbar del respaldo.",
+        "seriesSugeridas": 4,
+        "repsSugeridas": "10-12",
+        "idVariante": null
+    },
+    {
+        "nombre": "Hip Thrust",
+        "categoria": "Leg",
+        "nivel": "Intermedio",
+        "urlVideoLoop": "https://assets.miapp.com/hip-thrust.mp4",
+        "instruccionesTecnicas": "Apoyar escápulas en banco, empujar la pelvis hacia arriba hasta alinear con rodillas, contraer glúteos arriba.",
+        "seriesSugeridas": 4,
+        "repsSugeridas": "8-12",
+        "idVariante": null
+    },
+    {
+        "nombre": "Jalón al Pecho",
+        "categoria": "Tracción",
+        "nivel": "Principiante",
+        "urlVideoLoop": "https://assets.miapp.com/jalon-pecho.mp4",
+        "instruccionesTecnicas": "Sujetar la barra con agarre ancho, inclinar torso levemente, traccionar hacia la parte superior del pecho.",
+        "seriesSugeridas": 3,
+        "repsSugeridas": "10-12",
+        "idVariante": null
+    },
+    {
+        "nombre": "Remo con Mancuerna",
+        "categoria": "Tracción",
+        "nivel": "Principiante",
+        "urlVideoLoop": "https://assets.miapp.com/remo-mancuerna.mp4",
+        "instruccionesTecnicas": "Apoyar mano y rodilla en banco, traccionar mancuerna hacia la cadera manteniendo la espalda neutra.",
+        "seriesSugeridas": 3,
+        "repsSugeridas": "12 por lado",
+        "idVariante": null
+    },
+    {
+        "nombre": "Press de Banca con Mancuernas",
+        "categoria": "Empuje",
+        "nivel": "Principiante",
+        "urlVideoLoop": "https://assets.miapp.com/press-banca-db.mp4",
+        "instruccionesTecnicas": "Tumbado en banco, bajar mancuernas a los lados del pecho con codos a 45 grados, empujar hacia arriba.",
+        "seriesSugeridas": 3,
+        "repsSugeridas": "10-12",
+        "idVariante": null
+    },
+    {
+        "nombre": "Press Militar con Barra",
+        "categoria": "Empuje",
+        "nivel": "Intermedio",
+        "urlVideoLoop": "https://assets.miapp.com/press-militar.mp4",
+        "instruccionesTecnicas": "De pie, empujar la barra sobre la cabeza extendiendo codos, mantener core fuerte para no arquear lumbar.",
+        "seriesSugeridas": 4,
+        "repsSugeridas": "8-10",
+        "idVariante": null
+    },
+    {
+        "nombre": "Peso Muerto Rumano",
+        "categoria": "Leg",
+        "nivel": "Intermedio",
+        "urlVideoLoop": "https://assets.miapp.com/rdl.mp4",
+        "instruccionesTecnicas": "Bajar la carga pegada a las piernas flexionando la cadera, sentir estiramiento en isquios, espalda neutra.",
+        "seriesSugeridas": 3,
+        "repsSugeridas": "10-12",
+        "idVariante": null
+    },
+    {
+        "nombre": "Flexiones de Brazos",
+        "categoria": "Empuje",
+        "nivel": "Principiante",
+        "urlVideoLoop": "https://assets.miapp.com/flexiones.mp4",
+        "instruccionesTecnicas": "Manos bajo hombros, cuerpo en línea recta, bajar pecho al suelo y empujar manteniendo el core activo.",
+        "seriesSugeridas": 3,
+        "repsSugeridas": "Al fallo técnico",
+        "idVariante": null
+    },
+    {
+        "nombre": "Dominadas Asistidas",
+        "categoria": "Tracción",
+        "nivel": "Intermedio",
+        "urlVideoLoop": "https://assets.miapp.com/dominadas.mp4",
+        "instruccionesTecnicas": "Sujetar barra, traccionar intentando llevar el pecho a la barra, bajar de forma controlada.",
+        "seriesSugeridas": 3,
+        "repsSugeridas": "8-10",
+        "idVariante": null
+    },
+    {
+        "nombre": "Sentadilla con Barra",
+        "categoria": "Leg",
+        "nivel": "Avanzado",
+        "urlVideoLoop": "https://assets.miapp.com/sentadilla-barra.mp4",
+        "instruccionesTecnicas": "Barra sobre trapecios, bajar profundo controlando el core, empujar con toda la planta del pie.",
+        "seriesSugeridas": 4,
+        "repsSugeridas": "6-10",
+        "idVariante": null
+    },
+    {
+        "nombre": "Sentadilla en Máquina Smith",
+        "categoria": "Leg",
+        "nivel": "Intermedio",
+        "urlVideoLoop": "https://assets.miapp.com/sentadilla-smith.mp4",
+        "instruccionesTecnicas": "Posicionar pies adelantados, bajar guiado por la máquina, ideal para mayor estabilidad de core.",
+        "seriesSugeridas": 3,
+        "repsSugeridas": "10-12",
+        "idVariante": 11
+    },
+    {
+        "nombre": "Sentadilla Hack",
+        "categoria": "Leg",
+        "nivel": "Avanzado",
+        "urlVideoLoop": "https://assets.miapp.com/sentadilla-hack.mp4",
+        "instruccionesTecnicas": "Apoyar espalda en máquina, pies en plataforma, bajar profundo. Enfoque máximo en cuádriceps.",
+        "seriesSugeridas": 3,
+        "repsSugeridas": "10-12",
+        "idVariante": 2
+    }
+]
