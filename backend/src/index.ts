@@ -34,12 +34,26 @@ app.use((req, res, next) => {
   next();
 });
 
+const allowedOrigins = [
+  'https://usuarioee.onrender.com',
+  'https://usuarioee.onrender.com/'
+];
+
 app.use(cors({
-  origin: '*',
-  credentials: false,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
+
+// MUY IMPORTANTE: Manejar explícitamente el preflight para móviles
+app.options('*', cors());
 // app.use(limiter);
 
 app.use(express.json());
