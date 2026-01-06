@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../utils/api';
 import Link from 'next/link';
@@ -14,10 +14,7 @@ export default function LoginPage() {
     const [error, setError] = useState('');
 
     // DEBUG: Check what API URL is being used
-    useEffect(() => {
-        // Only log in development or if explicitly checking
-        console.log("DEBUG: API Base URL used by axios:", api.defaults.baseURL);
-    }, []);
+    // URL Check removed for production stability
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
