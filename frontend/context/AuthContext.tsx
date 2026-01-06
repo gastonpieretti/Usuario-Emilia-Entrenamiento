@@ -8,6 +8,7 @@ interface User {
     id: number;
     email: string;
     name: string;
+    lastName?: string;
     role: string;
     isApproved: boolean;
     hasCompletedOnboarding: boolean;

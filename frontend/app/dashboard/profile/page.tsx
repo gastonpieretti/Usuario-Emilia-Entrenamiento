@@ -44,7 +44,7 @@ export default function ProfilePage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <InfoItem label="Nombre" value={`${user.name} ${user.lastName || ''}`} />
+                    <InfoItem label="Nombre" value={`${user.name} ${(user as any).lastName || ''}`} />
                     <InfoItem label="Email" value={user.email} />
                     <InfoItem label="Whatsapp" value={profile.whatsapp} />
                     <InfoItem label="Ciudad" value={profile.city} />
