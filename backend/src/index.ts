@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 // Security Middleware (Temporarily disabled for debugging)
 // app.use(helmet());
 app.use(cors({
-  origin: '*',
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 }));
