@@ -13,6 +13,13 @@ export default function LoginPage() {
     const { login } = useAuth();
     const [error, setError] = useState('');
 
+    // DEBUG: Check what API URL is being used
+    import('react').then(({ useEffect }) => {
+        useEffect(() => {
+            console.log("DEBUG: API Base URL used by axios:", api.defaults.baseURL);
+        }, []);
+    });
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');

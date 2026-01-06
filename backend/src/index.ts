@@ -30,8 +30,14 @@ app.use((req, res, next) => {
 
 // Security Middleware (Temporarily disabled for debugging)
 // app.use(helmet());
+// Debug Logger for CORS
+app.use((req, res, next) => {
+  console.log(`[CORS DEBUG] Method: ${req.method}, URL: ${req.url}, Origin: ${req.headers.origin}`);
+  next();
+});
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: true, // Reflects the request origin. This helps if ENV var has typos or trailing slashes.
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
