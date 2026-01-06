@@ -28,19 +28,25 @@ app.use((req, res, next) => {
   next();
 });
 
-// Security Middleware (Temporarily disabled for debugging)
-// app.use(helmet());
 // Debug Logger for CORS
 app.use((req, res, next) => {
   console.log(`[CORS DEBUG] Method: ${req.method}, URL: ${req.url}, Origin: ${req.headers.origin}`);
   next();
 });
 
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URL ? `${process.env.FRONTEND_URL}/` : undefined,
+  'https://usuarioee.onrender.com',
+  'https://usuarioee.onrender.com/',
+  'http://localhost:3000'
+].filter(Boolean) as string[];
+
 app.use(cors({
-  origin: true, // Reflects the request origin. This helps if ENV var has typos or trailing slashes.
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Access-Control-Allow-Origin']
 }));
 // app.use(limiter);
 
@@ -67,6 +73,7 @@ app.use(errorHandler);
 const httpServer = createServer(app);
 initSocket(httpServer);
 
-httpServer.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+// Listen on 0.0.0.0 to ensure external access in containerized environments
+httpServer.listen(Number(port), '0.0.0.0', () => {
+  console.log(`Server is running at http://0.0.0.0:${port}`);
 });
