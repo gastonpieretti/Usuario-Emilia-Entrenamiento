@@ -1,13 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import helmet from 'helmet';
-import { limiter } from './middleware/security';
 import { errorHandler } from './middleware/errorHandler';
 import { createServer } from 'http';
 import { initSocket } from './services/socket';
-
-dotenv.config();
 
 import authRoutes from './routes/authRoutes';
 import routineRoutes from './routes/routineRoutes';

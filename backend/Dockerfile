@@ -10,6 +10,9 @@ COPY prisma ./prisma/
 
 RUN npm install
 
+# Generate Prisma Client
+RUN npx prisma generate
+
 COPY . .
 
 RUN npm run build
@@ -27,8 +30,11 @@ COPY prisma ./prisma/
 RUN npm install --only=production
 
 COPY --from=builder /app/dist ./dist
+COPY start.sh ./
+
+RUN chmod +x start.sh
 
 EXPOSE 3001
 
-CMD ["npm", "start"]
-
+# Run migrations and start server
+CMD ["sh", "start.sh"]

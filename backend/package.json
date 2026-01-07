@@ -6,7 +6,11 @@
     "scripts": {
         "dev": "nodemon --watch src --exec ts-node src/index.ts",
         "build": "node node_modules/typescript/bin/tsc",
-        "start": "node dist/index.js"
+        "start": "npx prisma generate && node dist/index.js",
+        "migrate:deploy": "prisma migrate deploy",
+        "migrate:dev": "prisma migrate dev",
+        "prisma:generate": "prisma generate",
+        "db:push": "prisma db push"
     },
     "keywords": [],
     "author": "",
