@@ -12,6 +12,11 @@ npx prisma migrate deploy
 
 echo "✅ Migrations completed successfully"
 
+echo "🌱 Seeding database..."
+npx prisma db seed
+
+echo "✅ Database seeded"
+
 echo "🔧 Generating Prisma Client..."
 npx prisma generate
 
