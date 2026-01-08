@@ -13,7 +13,7 @@ npx prisma migrate deploy
 echo "✅ Migrations completed successfully"
 
 echo "🌱 Seeding database..."
-npx prisma db seed
+node dist/prisma/seed.js
 
 echo "✅ Database seeded"
 

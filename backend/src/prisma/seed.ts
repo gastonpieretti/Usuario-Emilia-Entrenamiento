@@ -6,23 +6,32 @@ const prisma = new PrismaClient();
 async function main() {
     console.log('--- STARTING SEED ---');
 
-    // 1. Admin User
-    const adminEmail = 'admin@admin.com';
-    const hashedPassword = await bcrypt.hash('admin123', 10);
+    // 1. Admin Users
+    const admins = [
+        { email: 'admin@admin.com', name: 'Gaston', lastName: 'Admin', password: 'admin123' },
+        { email: 'gastonpieretti@gmail.com', name: 'Gaston', lastName: 'Pieretti', password: '123456' }
+    ];
 
-    const admin = await prisma.user.upsert({
-        where: { email: adminEmail },
-        update: {},
-        create: {
-            email: adminEmail,
-            name: 'Gaston',
-            lastName: 'Admin',
-            passwordHash: hashedPassword,
-            role: 'admin',
-            isApproved: true,
-        },
-    });
-    console.log('Admin user ready.');
+    for (const a of admins) {
+        const hashedPassword = await bcrypt.hash(a.password, 10);
+        await prisma.user.upsert({
+            where: { email: a.email },
+            update: {
+                role: 'admin',
+                isApproved: true,
+                passwordHash: hashedPassword
+            },
+            create: {
+                email: a.email,
+                name: a.name,
+                lastName: a.lastName,
+                passwordHash: hashedPassword,
+                role: 'admin',
+                isApproved: true,
+            },
+        });
+    }
+    console.log('Admin users ready.');
 
     // 2. Fundamental Exercises
     const exercises = [
