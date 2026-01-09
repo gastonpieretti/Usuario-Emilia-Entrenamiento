@@ -16,8 +16,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EMILIA ENTRENAMIENTO APP | Transforma tu Vida",
+  title: "EMILIA ENTRENAMIENTO v1.5 | Transforma tu Vida",
   description: "Planes de entrenamiento y nutrición online personalizados.",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
 export default function RootLayout({

@@ -28,4 +28,5 @@ COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
 
+# VERIFICATION: Standard CMD, no entrypoint.sh [CLEAN-19]
 CMD ["node", "server.js"]

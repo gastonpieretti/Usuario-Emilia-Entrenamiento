@@ -67,47 +67,49 @@ export default function TrashPage() {
                 <div>Cargando...</div>
             ) : (
                 <div className="bg-white rounded-lg shadow overflow-hidden">
-                    <table className="min-w-full">
-                        <thead className="bg-gray-100">
-                            <tr>
-                                <th className="py-3 px-6 text-left">Nombre</th>
-                                <th className="py-3 px-6 text-left">Email</th>
-                                <th className="py-3 px-6 text-center">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                            {users.length === 0 ? (
+                    <div className="table-container">
+                        <table className="min-w-full">
+                            <thead className="bg-gray-100">
                                 <tr>
-                                    <td colSpan={3} className="text-center py-8 text-gray-500">
-                                        La papelera está vacía.
-                                    </td>
+                                    <th className="py-3 px-6 text-left whitespace-nowrap">Nombre</th>
+                                    <th className="py-3 px-6 text-left whitespace-nowrap">Email</th>
+                                    <th className="py-3 px-6 text-center whitespace-nowrap">Acciones</th>
                                 </tr>
-                            ) : (
-                                users.map((user) => (
-                                    <tr key={user.id} className="hover:bg-gray-50">
-                                        <td className="py-4 px-6">{user.name} {user.lastName}</td>
-                                        <td className="py-4 px-6 text-gray-600">{user.email}</td>
-                                        <td className="py-4 px-6 text-center space-x-2">
-                                            <button
-                                                onClick={() => handleRestore(user.id)}
-                                                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 text-sm inline-flex items-center gap-1"
-                                                title="Restaurar de la papelera"
-                                            >
-                                                <RotateCcw size={16} /> Restaurar
-                                            </button>
-                                            <button
-                                                onClick={() => handleDeletePermanently(user.id)}
-                                                className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-sm inline-flex items-center gap-1"
-                                                title="Eliminar de la base de datos para siempre"
-                                            >
-                                                <XCircle size={16} /> Eliminar Definitivamente
-                                            </button>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                                {users.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={3} className="text-center py-8 text-gray-500">
+                                            La papelera está vacía.
                                         </td>
                                     </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                ) : (
+                                    users.map((user) => (
+                                        <tr key={user.id} className="hover:bg-gray-50">
+                                            <td className="py-4 px-6 whitespace-nowrap">{user.name} {user.lastName}</td>
+                                            <td className="py-4 px-6 text-gray-600 whitespace-nowrap">{user.email}</td>
+                                            <td className="py-4 px-6 text-center space-x-2 whitespace-nowrap">
+                                                <button
+                                                    onClick={() => handleRestore(user.id)}
+                                                    className="bg-green-500 text-white px-3 py-2 min-h-[44px] rounded hover:bg-green-600 text-sm inline-flex items-center gap-1"
+                                                    title="Restaurar de la papelera"
+                                                >
+                                                    <RotateCcw size={16} /> Restaurar
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeletePermanently(user.id)}
+                                                    className="bg-red-600 text-white px-3 py-2 min-h-[44px] rounded hover:bg-red-700 text-sm inline-flex items-center gap-1"
+                                                    title="Eliminar de la base de datos para siempre"
+                                                >
+                                                    <XCircle size={16} /> Eliminar Definitivamente
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )}
         </div>

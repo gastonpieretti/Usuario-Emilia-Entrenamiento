@@ -106,7 +106,7 @@ export default function ProgressPage() {
                     <div className="md:col-span-4">
                         <button
                             type="submit"
-                            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                            className="bg-blue-600 text-white px-6 py-3 min-h-[44px] rounded hover:bg-blue-700 font-bold uppercase text-sm shadow-md"
                         >
                             Add Entry
                         </button>
@@ -116,30 +116,32 @@ export default function ProgressPage() {
 
             {/* Progress History */}
             <div className="bg-white rounded shadow-md overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Weight</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waist</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Legs</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hips</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {progress.map((entry) => (
-                            <tr key={entry.id}>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {new Date(entry.date).toLocaleDateString()}
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.weight} kg</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.waist || '-'} cm</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.legs || '-'} cm</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.hips || '-'} cm</td>
+                <div className="table-container">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Weight</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waist</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Legs</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hips</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {progress.map((entry) => (
+                                <tr key={entry.id}>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {new Date(entry.date).toLocaleDateString()}
+                                    </td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.weight} kg</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.waist || '-'} cm</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.legs || '-'} cm</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{entry.hips || '-'} cm</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );

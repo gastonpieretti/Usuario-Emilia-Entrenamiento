@@ -53,37 +53,39 @@ export default function DietsManagerPage() {
                 </Link>
             </div>
             <div className="bg-white rounded shadow-md overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {loading ? (
-                            <tr><td colSpan={3} className="px-6 py-4 text-center">Loading...</td></tr>
-                        ) : diets.length === 0 ? (
-                            <tr><td colSpan={3} className="px-6 py-4 text-center">No diets found.</td></tr>
-                        ) : (
-                            diets.map((diet) => (
-                                <tr key={diet.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{diet.title}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{diet.user?.name} ({diet.user?.email})</td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                        <Link href={`/admin/diets/${diet.id}`} className="text-indigo-600 hover:text-indigo-900">
-                                            <Edit className="h-4 w-4 inline" />
-                                        </Link>
-                                        <button onClick={() => handleDelete(diet.id)} className="text-red-600 hover:text-red-900">
-                                            <Trash2 className="h-4 w-4 inline" />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                <div className="table-container">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {loading ? (
+                                <tr><td colSpan={3} className="px-6 py-4 text-center">Loading...</td></tr>
+                            ) : diets.length === 0 ? (
+                                <tr><td colSpan={3} className="px-6 py-4 text-center">No diets found.</td></tr>
+                            ) : (
+                                diets.map((diet) => (
+                                    <tr key={diet.id}>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{diet.title}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{diet.user?.name} ({diet.user?.email})</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                            <Link href={`/admin/diets/${diet.id}`} className="text-indigo-600 hover:text-indigo-900">
+                                                <Edit className="h-4 w-4 inline" />
+                                            </Link>
+                                            <button onClick={() => handleDelete(diet.id)} className="text-red-600 hover:text-red-900">
+                                                <Trash2 className="h-4 w-4 inline" />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
