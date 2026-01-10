@@ -1,7 +1,11 @@
 #!/bin/sh
+set -e
 
-echo "==== SINCRONIZANDO BASE ===="
-npx prisma db push
+echo "==== 🔍 SINCRONIZANDO BASE DE DATOS ===="
+npx prisma db push --accept-data-loss
 
-echo "==== INICIANDO BACKEND ===="
-node dist/main.js
+echo "==== ⚙️ GENERANDO CLIENTE PRISMA ===="
+npx prisma generate
+
+echo "==== 🚀 INICIANDO BACKEND DE EMILIA ENTRENAMIENTO ===="
+exec node dist/index.js
