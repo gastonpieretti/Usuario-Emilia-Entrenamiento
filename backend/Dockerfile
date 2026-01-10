@@ -36,5 +36,5 @@ RUN chmod +x start.sh
 
 EXPOSE 3001
 
-# Run migrations and start server
-CMD npx prisma db push && npm start
+# Usamos el script para asegurar que la base de datos se actualice ANTES de arrancar
+CMD ["./start.sh"]
