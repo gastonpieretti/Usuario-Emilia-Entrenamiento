@@ -29,6 +29,7 @@ model User {
   planStartDate          DateTime?
   acquiredMonths         Int              @default(1)
   planSchedule           Json?
+  planType               String?          // Campo para definir si es DIETA, PLAN o AMBOS
   diets                  Diet[]
   receivedMessages       Message[]        @relation("ReceivedMessages")
   sentMessages           Message[]        @relation("SentMessages")
@@ -72,9 +73,20 @@ model UserProfile {
   updatedAt          DateTime @updatedAt
   age                Int?
   gender             String?
+  
+  // Mapa de Dolores y Limitaciones
   painColumna        Boolean  @default(false)
   painHombro         Boolean  @default(false)
   painRodilla        Boolean  @default(false)
+  painCadera         Boolean  @default(false)
+  painTobillo        Boolean  @default(false)
+  
+  // Estilo de Vida y Nutrición
+  sleepQuality       String?
+  stressLevel        String?
+  happyFood          String?
+  dailyActivity      String?
+  
   height_cm          Float?
   sessionDurationMin Int?
   weight_kg          Float?
@@ -84,20 +96,20 @@ model UserProfile {
 }
 
 model Routine {
-  id          Int               @id @default(autoincrement())
-  userId      Int
-  title       String
-  description String?
-  weekDay     String
-  createdAt   DateTime          @default(now())
-  order       Int               @default(0)
+  id             Int               @id @default(autoincrement())
+  userId         Int
+  title          String
+  description    String?
+  weekDay        String
+  createdAt      DateTime          @default(now())
+  order          Int               @default(0)
   isApproved     Boolean           @default(false)
   blueprint      Json?
   month          Int               @default(1)
   activationDate DateTime?
   user           User              @relation(fields: [userId], references: [id])
-  exercises   RoutineExercise[]
-  history     RoutineHistory[]
+  exercises      RoutineExercise[]
+  history        RoutineHistory[]
 }
 
 model Exercise {
