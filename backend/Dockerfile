@@ -37,4 +37,4 @@ RUN chmod +x start.sh
 EXPOSE 3001
 
 # Run migrations and start server
-CMD ["sh", "start.sh"]
+CMD npx prisma db push && npm start
