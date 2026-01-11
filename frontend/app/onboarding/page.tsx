@@ -79,8 +79,8 @@ export default function OnboardingPage() {
         { id: 'dailyActivity', question: '¿Cómo es tu movimiento diario habitual?', type: 'select', options: ['Sedentario', 'Ligera', 'Moderada', 'Intensa'] },
         { id: 'goal', question: '¿Cuál es tu objetivo principal?', type: 'select', options: ['Pérdida de grasa', 'Ganancia de masa muscular', 'Salud / Mantenerme'] },
         
-        // ENTRENAMIENTO
-        { id: 'trainingLocation', question: '¿Dónde entrenaras?', type: 'select', options: ['Gimnasio completo', 'Casa con mancuernas / bandas', 'Casa sin equipamiento'], condition: 'ENTRENAMIENTO' },
+        // ENTRENAMIENTO (Opción corregida)
+        { id: 'trainingLocation', question: '¿Dónde entrenaras?', type: 'select', options: ['Gimnasio completo', 'Casa con mancuernas / bandas', 'Mixto (casa y gym)'], condition: 'ENTRENAMIENTO' },
         { id: 'daysPerWeek', question: '¿Con qué frecuencia deseas entrenar?', type: 'select', options: ['2 días', '3 días', '4 días', '5 días', '6 días'], condition: 'ENTRENAMIENTO' },
         { id: 'sessionDurationMin', question: '¿Cuánto tiempo quieres que duren tus entrenamientos aprox.?', type: 'select', options: ['30 min', '45 min', '60 min', 'Más de 60 min'], condition: 'ENTRENAMIENTO' },
         { id: 'priorityArea', question: '¿A qué parte del cuerpo te interesa darle prioridad?', type: 'select', options: ['Glúteos', 'Piernas', 'Abdomen', 'Tren Superior', 'Todo'], condition: 'ENTRENAMIENTO' },
@@ -133,38 +133,53 @@ export default function OnboardingPage() {
             setStep(step + 1);
             setError(false);
         } else {
-            handleSubmit();
+            // Al terminar el último paso, mostramos la pantalla final
+            setIsFinished(true);
         }
     };
 
-    const handleSubmit = async () => {
+    // 4. NUEVA LÓGICA: Guardar y Redirigir
+    const handleFinalSave = async () => {
         setLoading(true);
         try {
+            // Guardamos en la Base de Datos
             await fetch('/api/user/profile', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
-        } catch (e) { console.error(e); }
-
-        const miNumero = "59899123456"; // TU NÚMERO
-        const mensaje = `Hola Emilia, soy nuevo alumno. Mis datos: Objetivo ${formData.goal}, Plan ${planType}.`;
-        const url = `https://wa.me/${miNumero}?text=${encodeURIComponent(mensaje)}`;
-        
-        setTimeout(() => { 
-            setIsFinished(true); 
-            setLoading(false); 
-            window.open(url, '_blank'); 
-        }, 1500);
+            
+            // Redirigimos al inicio de la APP (Dashboard)
+            router.push('/dashboard');
+        } catch (e) { 
+            console.error("Error guardando datos:", e);
+            setLoading(false);
+            alert("Hubo un error al guardar. Por favor intenta de nuevo.");
+        }
     };
 
     if (isFinished) {
         return (
             <div className="min-h-screen bg-[#F8F9FA] flex flex-col items-center justify-center p-8 text-center animate-in fade-in">
-                <div className="bg-white p-10 rounded-[2rem] shadow-xl max-w-sm w-full">
-                    {/* SIN ICONO, SOLO TEXTO */}
-                    <h1 className="text-3xl font-bold mb-4 text-[#343a40]">¡Felicitaciones!</h1>
-                    <p className="text-[#6c757d]">Has completado todo el formulario. Te notificaremos una vez que tu plan esté elaborado.</p>
+                <div className="bg-white p-10 rounded-[2rem] shadow-xl max-w-sm w-full space-y-8">
+                    
+                    <div className="space-y-4">
+                        <h1 className="text-3xl font-extrabold text-[#343a40]">¡Felicitaciones!</h1>
+                        <p className="text-[#6c757d] text-lg font-medium leading-relaxed">
+                            Has completado todo el formulario.
+                        </p>
+                        <p className="text-sm text-gray-400">
+                            Haz clic en guardar para crear tu perfil y comenzar.
+                        </p>
+                    </div>
+
+                    <button 
+                        onClick={handleFinalSave}
+                        disabled={loading}
+                        className="w-full py-5 bg-[#5882ff] text-white rounded-2xl font-bold text-xl shadow-[0_10px_20px_rgba(88,130,255,0.3)] hover:shadow-[0_15px_30px_rgba(88,130,255,0.4)] hover:scale-[1.01] transition-all active:scale-[0.98] disabled:opacity-70"
+                    >
+                        {loading ? 'Guardando...' : 'GUARDAR'}
+                    </button>
                 </div>
             </div>
         );
@@ -248,10 +263,7 @@ export default function OnboardingPage() {
                                 {currentStepData.options.map((opt: any) => (
                                     <label key={opt.id} className={`flex items-center p-5 rounded-2xl border-2 transition-all cursor-pointer shadow-sm ${formData[opt.id] ? 'border-[#5882ff] bg-blue-50/50' : 'border-[#f1f3f5] bg-white'}`}>
                                         <input type="checkbox" className="hidden" checked={formData[opt.id] as boolean} onChange={() => setFormData({...formData, [opt.id]: !formData[opt.id]})} />
-                                        
-                                        {/* CAJA DE SELECCIÓN SIN ICONO (Solo color) */}
                                         <div className={`w-6 h-6 rounded-md border-2 mr-4 flex items-center justify-center transition-all ${formData[opt.id] ? 'bg-[#5882ff] border-[#5882ff]' : 'border-gray-200'}`}>
-                                            {/* Si está activo, se llena de azul. Si no, blanco. */}
                                         </div>
                                         <span className="text-lg font-bold text-[#495057]">{opt.label}</span>
                                     </label>
@@ -296,7 +308,6 @@ function HealthGrid({ formData, setFormData }: { formData: FormData, setFormData
 
     return (
         <div className="space-y-6 max-h-[55vh] overflow-y-auto pr-2 custom-scrollbar">
-            {/* SIN ICONOS */}
             <HealthSection title="Metabólicas" options={['Diabetes 1', 'Diabetes 2', 'Resistencia Insulina', 'Hipotiroidismo']} selected={formData.healthConditions} onToggle={toggleCondition} />
             <HealthSection title="Cardiovasculares" options={['Hipertensión', 'Colesterol Alto', 'Triglicéridos Altos']} selected={formData.healthConditions} onToggle={toggleCondition} />
             <HealthSection title="Digestivas" options={['Celíaco', 'Intolerancia Lactosa', 'Gastritis', 'Colon Irritable']} selected={formData.healthConditions} onToggle={toggleCondition} />
@@ -335,7 +346,6 @@ function HealthSection({ title, options, selected, onToggle }: any) {
                 {options.map((opt: string) => (
                     <label key={opt} className={`flex items-center p-3 rounded-xl border-2 transition-all cursor-pointer ${selected.includes(opt) ? 'border-[#5882ff] bg-blue-50' : 'border-gray-50 bg-white hover:border-gray-200'}`}>
                         <input type="checkbox" className="hidden" checked={selected.includes(opt)} onChange={() => onToggle(opt)} />
-                        {/* Indicador simple cuadrado */}
                         <div className={`w-5 h-5 rounded-md border-2 mr-3 flex items-center justify-center transition-all ${selected.includes(opt) ? 'bg-[#5882ff] border-[#5882ff]' : 'border-gray-300'}`}>
                         </div>
                         <span className="text-sm font-bold text-[#495057]">{opt}</span>
