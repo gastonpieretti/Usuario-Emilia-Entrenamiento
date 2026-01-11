@@ -5,16 +5,16 @@ RUN apk add --no-cache openssl
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY prisma ./prisma/
-
-RUN npm install
-
-# Generate Prisma Client
-RUN npx prisma generate
-
+# 1. COPIAMOS TODO PRIMERO
 COPY . .
 
+# 2. INSTALAMOS DEPENDENCIAS (Esto arregla los permisos)
+RUN npm install
+
+# 3. GENERAMOS PRISMA (Ahora sí tendrá permiso)
+RUN npx prisma generate
+
+# 4. CONSTRUIMOS
 RUN npm run build
 
 # Production Stage
@@ -24,19 +24,20 @@ RUN apk add --no-cache openssl
 
 WORKDIR /app
 
+# Copiamos package.json y prisma para producción
 COPY package*.json ./
 COPY prisma ./prisma/
 
+# Instalamos solo lo necesario para correr
 RUN npm install --only=production
 
+# Copiamos los archivos construidos en la etapa anterior
 COPY --from=builder /app/dist ./dist
 COPY start.sh ./
 
 RUN chmod +x start.sh
 
-# ... (todo lo anterior igual hasta el EXPOSE 3001)
-
 EXPOSE 3001
 
-# Comando de fuerza bruta: Sincroniza y arranca en una sola línea
+# Comando de arranque
 CMD npx prisma db push --accept-data-loss && node dist/index.js
