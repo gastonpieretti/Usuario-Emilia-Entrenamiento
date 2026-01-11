@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -8,207 +7,113 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 1. Modelo de Usuario Principal
 model User {
-  id                     Int              @id @default(autoincrement())
-  email                  String           @unique
-  name                   String?
-  lastName               String?
-  passwordHash           String
-  role                   Role             @default(client)
-  height                 Float?
-  weight                 Float?
-  age                    Int?
-  createdAt              DateTime         @default(now())
-  updatedAt              DateTime         @updatedAt
-  hasCompletedOnboarding Boolean          @default(false)
-  isApproved             Boolean          @default(false)
-  securityAnswer         String?
-  securityQuestion       String?
-  isDeleted              Boolean          @default(false)
-  planExpiresAt          DateTime?
-  planStartDate          DateTime?
-  acquiredMonths         Int              @default(1)
-  planSchedule           Json?
-  planType               String?          // Campo para definir si es DIETA, PLAN o AMBOS
-  diets                  Diet[]
-  receivedMessages       Message[]        @relation("ReceivedMessages")
-  sentMessages           Message[]        @relation("SentMessages")
-  progress               Progress[]
-  routines               Routine[]
-  routineHistory         RoutineHistory[]
-  profile                UserProfile?
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String?
+  lastName     String?
+  passwordHash String
+  role         Role     @default(CLIENT)
+  
+  // Campo NUEVO que faltaba
+  planType     String?  @default("COMPLETO") // "COMPLETO", "ENTRENAMIENTO", "NUTRICION"
+  
+  // Campos antiguos (mantenemos por compatibilidad si los usabas)
+  height       Float?
+  weight       Float?
+  age          Int?
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  profile      UserProfile?
+  routines     Routine[]
+  diets        Diet[]
+  progress     Progress[]
+  planSchedule Json?
 }
 
-model Message {
-  id         Int      @id @default(autoincrement())
-  content    String
-  senderId   Int
-  receiverId Int
-  isRead     Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
-  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
-}
-
+// 2. Perfil Detallado (Aquí va todo lo del Formulario)
 model UserProfile {
   id                 Int      @id @default(autoincrement())
   userId             Int      @unique
-  city               String?
-  country            String?
-  whatsapp           String?
-  occupation         String?
-  measurements       String?
-  injuries           String?
-  energyLevel        String?
-  goal               String?
-  experienceLevel    String?
-  trainingLocation   String?
-  equipment          String[]
-  daysPerWeek        Int?
-  mealsPerDay        Int?
-  dislikedFood       String?
-  dietPreference     String?
-  waterIntake        String?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  age                Int?
-  gender             String?
+  user               User     @relation(fields: [userId], references: [id])
   
-  // Mapa de Dolores y Limitaciones
+  // Biométricos
+  gender             String?
+  age                Int?
+  weight_kg          Float?
+  height_cm          Float?
+  
+  // Estilo de Vida (LOS QUE FALTABAN)
+  dailyActivity      String?  // Sedentario, Ligera, etc.
+  sleepQuality       String?
+  stressLevel        String?
+  
+  // Entrenamiento
+  goal               String?
+  trainingLocation   String?
+  experienceLevel    String?
+  daysPerWeek        Int?
+  sessionDurationMin Int?
+  
+  // Dolores (Booleanos)
   painColumna        Boolean  @default(false)
   painHombro         Boolean  @default(false)
   painRodilla        Boolean  @default(false)
   painCadera         Boolean  @default(false)
   painTobillo        Boolean  @default(false)
   
-  // Estilo de Vida y Nutrición
-  sleepQuality       String?
-  stressLevel        String?
-  happyFood          String?
-  dailyActivity      String?
+  // Nutrición
+  dietPreference     String?
+  waterIntake        String?
+  dislikedFood       String?  // Alimentos que no gustan
   
-  height_cm          Float?
-  sessionDurationMin Int?
-  weight_kg          Float?
-  targetWeight       Float?
-  aptoSobrepeso      Boolean  @default(false)
-  user               User     @relation(fields: [userId], references: [id])
+  // Salud General
+  injuries           String?  // Aquí guardamos el resumen de condiciones médicas
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 model Routine {
-  id             Int               @id @default(autoincrement())
-  userId         Int
-  title          String
-  description    String?
-  weekDay        String
-  createdAt      DateTime          @default(now())
-  order          Int               @default(0)
-  isApproved     Boolean           @default(false)
-  blueprint      Json?
-  month          Int               @default(1)
-  activationDate DateTime?
-  user           User              @relation(fields: [userId], references: [id])
-  exercises      RoutineExercise[]
-  history        RoutineHistory[]
-}
-
-model Exercise {
-  id                      Int                @id @default(autoincrement())
-  categoria               String
-  idVariante              Int?
-  instruccionesTecnicas   String
-  nivel                   String
-  nombre                  String
-  repsSugeridas           String
-  seriesSugeridas         Int
-  urlVideoLoop            String
-  equipamiento            String[]
-  impacto                 String?
-  lugar                   String[]
-  nivel_permitido         String[]
-  riesgo_columna          String?
-  riesgo_hombro           String?
-  riesgo_rodilla          String?
-  fatiga_neuromuscular    Int?
-  frecuencia_max_semanal  Int?
-  grupo_muscular_primario String?
-  patron_movimiento       String?
-  orden_recomendado       String?
-  routineExercises        RoutineExercise[]
-  templateExercises       TemplateExercise[]
-}
-
-model RoutineExercise {
-  id         Int      @id @default(autoincrement())
-  routineId  Int
-  exerciseId Int
-  sets       Int
-  reps       String
-  restTime   String
-  order      Int      @default(0)
-  isSuperset Boolean  @default(false)
-  exercise   Exercise @relation(fields: [exerciseId], references: [id])
-  routine    Routine  @relation(fields: [routineId], references: [id])
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  exercises   Json
+  clientId    Int
+  client      User      @relation(fields: [clientId], references: [id])
+  assignedBy  Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Diet {
-  id             Int      @id @default(autoincrement())
-  userId         Int
-  title          String
-  description    String?
-  createdAt      DateTime @default(now())
-  carbG          Int?
-  fatG           Int?
-  mealsStructure String?
-  proteinG       Int?
-  targetCalories Int?
-  user           User     @relation(fields: [userId], references: [id])
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  meals       Json
+  clientId    Int
+  client      User      @relation(fields: [clientId], references: [id])
+  assignedBy  Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Progress {
-  id     Int      @id @default(autoincrement())
-  userId Int
-  weight Float
-  waist  Float?
-  legs   Float?
-  hips   Float?
-  date   DateTime @default(now())
-  user   User     @relation(fields: [userId], references: [id])
-}
-
-model RoutineTemplate {
-  id          Int                @id @default(autoincrement())
-  name        String
-  description String?
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-  exercises   TemplateExercise[]
-}
-
-model TemplateExercise {
-  id                Int             @id @default(autoincrement())
-  routineTemplateId Int
-  exerciseId        Int
-  sets              Int
-  reps              String
-  restTime          String
-  order             Int             @default(0)
-  exercise          Exercise        @relation(fields: [exerciseId], references: [id])
-  template          RoutineTemplate @relation(fields: [routineTemplateId], references: [id])
-}
-
-model RoutineHistory {
-  id         Int      @id @default(autoincrement())
-  routineId  Int
-  userId     Int
-  data       Json
-  changeType String
-  createdAt  DateTime @default(now())
-  routine    Routine  @relation(fields: [routineId], references: [id], onDelete: Cascade)
-  user       User     @relation(fields: [userId], references: [id])
+  id        Int      @id @default(autoincrement())
+  clientId  Int
+  client    User     @relation(fields: [clientId], references: [id])
+  date      DateTime @default(now())
+  weight    Float?
+  notes     String?
+  photos    String[]
+  metrics   Json?
 }
 
 enum Role {
-  client
-  admin
+  ADMIN
+  COACH
+  CLIENT
 }
