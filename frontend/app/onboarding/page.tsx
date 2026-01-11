@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronLeft, Check, X, Activity, Heart, Droplets } from 'lucide-react';
 
-// 1. Definición estricta de los datos del formulario
+// 1. Definición FLEXIBLE de los datos
 interface FormData {
     gender: string; 
     age: string; 
@@ -38,8 +37,8 @@ interface FormData {
     healthIsControlled: string;
     medicationDetail: string;
     
-    // Campos de control
-    [key: string]: string | boolean | string[]; 
+    // Índice flexible para evitar errores de TypeScript
+    [key: string]: any; 
 }
 
 export default function OnboardingPage() {
@@ -50,7 +49,7 @@ export default function OnboardingPage() {
     const [isFinished, setIsFinished] = useState(false);
     const [error, setError] = useState(false);
 
-    // Estado inicial limpio
+    // Estado inicial
     const [formData, setFormData] = useState<FormData>({
         gender: '', age: '', weight_kg: '', height_cm: '',
         dailyActivity: '', goal: '', 
@@ -71,7 +70,7 @@ export default function OnboardingPage() {
         fetchPlan();
     }, []);
 
-    // 2. Configuración de Pasos (Auditada)
+    // 2. Configuración de Pasos
     const allSteps = [
         { id: 'gender', question: '¿Cuál es tu sexo biológico?', type: 'select', options: ['Femenino', 'Masculino'] },
         { id: 'age', question: '¿Cuántos años tienes?', type: 'number', placeholder: 'Ej: 30' },
@@ -112,17 +111,14 @@ export default function OnboardingPage() {
 
     const currentStepData = filteredSteps[step];
 
-    // 3. Lógica de Validación Robusta
+    // 3. Lógica de Validación
     const validateAndNext = () => {
-        // Excepciones que no requieren validación estricta de string vacío
         if (currentStepData.id === 'pains' || currentStepData.id === 'healthConditions') { 
             handleNext(); 
             return; 
         }
 
         const val = formData[currentStepData.id];
-        
-        // Validación para números y textos
         if (!val || val === '' || val === '0') { 
             setError(true); 
             return; 
@@ -143,7 +139,6 @@ export default function OnboardingPage() {
 
     const handleSubmit = async () => {
         setLoading(true);
-        // Guardar en BD
         try {
             await fetch('/api/user/profile', {
                 method: 'POST',
@@ -152,7 +147,6 @@ export default function OnboardingPage() {
             });
         } catch (e) { console.error(e); }
 
-        // Redirigir a WhatsApp
         const miNumero = "59899123456"; // TU NÚMERO
         const mensaje = `Hola Emilia, soy nuevo alumno. Mis datos: Objetivo ${formData.goal}, Plan ${planType}.`;
         const url = `https://wa.me/${miNumero}?text=${encodeURIComponent(mensaje)}`;
@@ -168,8 +162,8 @@ export default function OnboardingPage() {
         return (
             <div className="min-h-screen bg-[#F8F9FA] flex flex-col items-center justify-center p-8 text-center animate-in fade-in">
                 <div className="bg-white p-10 rounded-[2rem] shadow-xl max-w-sm w-full">
-                    <Check className="text-green-600 mx-auto mb-6" size={60} />
-                    <h1 className="text-2xl font-bold mb-4 text-[#343a40]">¡Felicitaciones!</h1>
+                    {/* SIN ICONO, SOLO TEXTO */}
+                    <h1 className="text-3xl font-bold mb-4 text-[#343a40]">¡Felicitaciones!</h1>
                     <p className="text-[#6c757d]">Has completado todo el formulario. Te notificaremos una vez que tu plan esté elaborado.</p>
                 </div>
             </div>
@@ -178,15 +172,15 @@ export default function OnboardingPage() {
 
     return (
         <div className="min-h-screen bg-[#F8F9FA] flex flex-col font-sans text-[#343a40]">
-            {/* Header */}
+            {/* Header Texto Simple */}
             <header className="p-6 flex justify-between items-center bg-white/50 backdrop-blur-sm sticky top-0 z-10">
                 {step > 0 ? (
-                    <button onClick={() => setStep(step - 1)} className="flex items-center text-[#6c757d] hover:text-[#5882ff] transition-colors">
-                        <ChevronLeft size={24} /> <span className="font-bold ml-1">Volver</span>
+                    <button onClick={() => setStep(step - 1)} className="text-[#6c757d] hover:text-[#5882ff] transition-colors font-bold text-sm">
+                        ATRÁS
                     </button>
                 ) : <div />}
-                <button onClick={() => router.push('/dashboard')} className="p-2 bg-white rounded-full shadow-sm text-[#6c757d] hover:text-red-500 transition-all">
-                    <X size={24} />
+                <button onClick={() => router.push('/dashboard')} className="text-[#6c757d] hover:text-red-500 font-bold text-sm">
+                    CERRAR
                 </button>
             </header>
 
@@ -194,22 +188,20 @@ export default function OnboardingPage() {
             <main className="flex-1 flex flex-col items-center justify-center p-4">
                 <div className="w-full max-w-2xl bg-white p-8 md:p-12 rounded-[2.5rem] shadow-[0_15px_40px_-12px_rgba(0,0,0,0.1)] space-y-8 animate-in fade-in slide-in-from-bottom-8">
                     
-                    {/* Pregunta */}
                     <div className="space-y-3 text-center">
                         <p className="text-[#5882ff] font-bold text-xs tracking-widest uppercase">Paso {step + 1} de {filteredSteps.length}</p>
                         <h1 className="text-3xl md:text-4xl font-extrabold text-[#343a40] leading-tight">{currentStepData.question}</h1>
                         {currentStepData.detail && <p className="text-[#6c757d] font-normal text-lg">{currentStepData.detail}</p>}
                     </div>
 
-                    {/* Renderizado de Inputs según Tipo */}
                     <div className="space-y-4">
                         
-                        {/* 1. TIPO SELECT (Botones) */}
+                        {/* 1. TIPO SELECT */}
                         {currentStepData.type === 'select' && currentStepData.options?.map((opt) => (
                             <button
                                 key={String(opt)}
                                 onClick={() => { 
-                                    setFormData({...formData, [currentStepData.id]: opt}); 
+                                    setFormData({...formData, [currentStepData.id]: opt as string}); 
                                     setError(false);
                                     handleNext(); 
                                 }}
@@ -222,7 +214,7 @@ export default function OnboardingPage() {
                             </button>
                         ))}
 
-                        {/* 2. TIPO NUMBER (Campo numérico grande) - CORREGIDO */}
+                        {/* 2. TIPO NUMBER */}
                         {currentStepData.type === 'number' && (
                             <div className="flex justify-center py-4">
                                 <input 
@@ -240,7 +232,7 @@ export default function OnboardingPage() {
                             </div>
                         )}
 
-                        {/* 3. TIPO TEXT (Textarea) */}
+                        {/* 3. TIPO TEXT */}
                         {currentStepData.type === 'text' && (
                             <textarea 
                                 className="w-full p-6 rounded-3xl border-2 border-[#f1f3f5] focus:border-[#5882ff] outline-none min-h-[150px] text-lg text-[#343a40] shadow-inner"
@@ -250,14 +242,16 @@ export default function OnboardingPage() {
                             />
                         )}
 
-                        {/* 4. TIPO CHECKBOX (Dolores) */}
+                        {/* 4. TIPO CHECKBOX */}
                         {currentStepData.type === 'checkbox' && currentStepData.options && (
                             <div className="grid grid-cols-1 gap-3">
                                 {currentStepData.options.map((opt: any) => (
                                     <label key={opt.id} className={`flex items-center p-5 rounded-2xl border-2 transition-all cursor-pointer shadow-sm ${formData[opt.id] ? 'border-[#5882ff] bg-blue-50/50' : 'border-[#f1f3f5] bg-white'}`}>
                                         <input type="checkbox" className="hidden" checked={formData[opt.id] as boolean} onChange={() => setFormData({...formData, [opt.id]: !formData[opt.id]})} />
+                                        
+                                        {/* CAJA DE SELECCIÓN SIN ICONO (Solo color) */}
                                         <div className={`w-6 h-6 rounded-md border-2 mr-4 flex items-center justify-center transition-all ${formData[opt.id] ? 'bg-[#5882ff] border-[#5882ff]' : 'border-gray-200'}`}>
-                                            {formData[opt.id] && <Check size={16} className="text-white" strokeWidth={3} />}
+                                            {/* Si está activo, se llena de azul. Si no, blanco. */}
                                         </div>
                                         <span className="text-lg font-bold text-[#495057]">{opt.label}</span>
                                     </label>
@@ -265,20 +259,18 @@ export default function OnboardingPage() {
                             </div>
                         )}
 
-                        {/* 5. TIPO HEALTH-GRID (Salud Compleja) */}
+                        {/* 5. TIPO HEALTH-GRID */}
                         {currentStepData.type === 'health-grid' && (
                             <HealthGrid formData={formData} setFormData={setFormData} />
                         )}
                     </div>
 
-                    {/* Mensaje de Error */}
                     {error && (
                         <div className="bg-red-50 text-red-500 p-3 rounded-xl text-center font-bold text-sm animate-pulse border border-red-100">
-                            ⚠️ Por favor completa este campo para continuar
+                            ⚠️ Por favor completa este campo
                         </div>
                     )}
 
-                    {/* Botón de Continuar (Solo si no es selección automática) */}
                     {currentStepData.type !== 'select' && (
                         <button 
                             onClick={validateAndNext} 
@@ -293,7 +285,6 @@ export default function OnboardingPage() {
     );
 }
 
-// Subcomponente para la grilla de salud (extraído para limpieza)
 function HealthGrid({ formData, setFormData }: { formData: FormData, setFormData: any }) {
     const toggleCondition = (condition: string) => {
         const current = formData.healthConditions;
@@ -305,9 +296,10 @@ function HealthGrid({ formData, setFormData }: { formData: FormData, setFormData
 
     return (
         <div className="space-y-6 max-h-[55vh] overflow-y-auto pr-2 custom-scrollbar">
-            <HealthSection title="Metabólicas" icon={<Activity size={18}/>} options={['Diabetes 1', 'Diabetes 2', 'Resistencia Insulina', 'Hipotiroidismo']} selected={formData.healthConditions} onToggle={toggleCondition} />
-            <HealthSection title="Cardio" icon={<Heart size={18}/>} options={['Hipertensión', 'Colesterol Alto', 'Triglicéridos Altos']} selected={formData.healthConditions} onToggle={toggleCondition} />
-            <HealthSection title="Digestivas" icon={<Droplets size={18}/>} options={['Celíaco', 'Intolerancia Lactosa', 'Gastritis', 'Colon Irritable']} selected={formData.healthConditions} onToggle={toggleCondition} />
+            {/* SIN ICONOS */}
+            <HealthSection title="Metabólicas" options={['Diabetes 1', 'Diabetes 2', 'Resistencia Insulina', 'Hipotiroidismo']} selected={formData.healthConditions} onToggle={toggleCondition} />
+            <HealthSection title="Cardiovasculares" options={['Hipertensión', 'Colesterol Alto', 'Triglicéridos Altos']} selected={formData.healthConditions} onToggle={toggleCondition} />
+            <HealthSection title="Digestivas" options={['Celíaco', 'Intolerancia Lactosa', 'Gastritis', 'Colon Irritable']} selected={formData.healthConditions} onToggle={toggleCondition} />
             
             <div className="pt-6 border-t border-gray-100 space-y-4">
                 <div>
@@ -333,18 +325,18 @@ function HealthGrid({ formData, setFormData }: { formData: FormData, setFormData
     );
 }
 
-function HealthSection({ title, icon, options, selected, onToggle }: any) {
+function HealthSection({ title, options, selected, onToggle }: any) {
     return (
         <div className="space-y-3">
-            <div className="flex items-center gap-2 text-[#5882ff] font-bold uppercase text-xs tracking-wider">
-                {icon} <span>{title}</span>
+            <div className="text-[#5882ff] font-bold uppercase text-xs tracking-wider">
+                {title}
             </div>
             <div className="grid grid-cols-1 gap-2">
                 {options.map((opt: string) => (
                     <label key={opt} className={`flex items-center p-3 rounded-xl border-2 transition-all cursor-pointer ${selected.includes(opt) ? 'border-[#5882ff] bg-blue-50' : 'border-gray-50 bg-white hover:border-gray-200'}`}>
                         <input type="checkbox" className="hidden" checked={selected.includes(opt)} onChange={() => onToggle(opt)} />
+                        {/* Indicador simple cuadrado */}
                         <div className={`w-5 h-5 rounded-md border-2 mr-3 flex items-center justify-center transition-all ${selected.includes(opt) ? 'bg-[#5882ff] border-[#5882ff]' : 'border-gray-300'}`}>
-                            {selected.includes(opt) && <Check size={14} className="text-white" strokeWidth={3} />}
                         </div>
                         <span className="text-sm font-bold text-[#495057]">{opt}</span>
                     </label>
