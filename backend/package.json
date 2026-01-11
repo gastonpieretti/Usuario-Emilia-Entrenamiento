@@ -5,7 +5,13 @@
     "main": "dist/index.js",
     "scripts": {
         "dev": "nodemon --watch src --exec ts-node src/index.ts",
-        "build": "node node_modules/typescript/bin/tsc",
+       "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "npx prisma generate && tsc", 
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write \"src/**/*.ts\""
+},
         "start": "sh ./start.sh",
         "migrate:deploy": "prisma db push --accept-data-loss",
         "migrate:dev": "prisma migrate dev",
