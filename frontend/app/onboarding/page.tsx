@@ -139,22 +139,28 @@ export default function OnboardingPage() {
     };
 
     // 4. NUEVA LÓGICA: Guardar y Redirigir
-    const handleFinalSave = async () => {
+   const handleFinalSave = async () => {
         setLoading(true);
         try {
-            // Guardamos en la Base de Datos
+            // Obtenemos el email de la sesión o lo pedimos. 
+            // Como solución rápida, asumo que tienes el email del usuario logueado.
+            // Si no, agrégalo a formData.
+            
+            // Para probar YA MISMO, agrega tu email manual en el código para ver si guarda:
+            const dataToSend = { 
+                ...formData, 
+                email: "gastonpieretti2@gmail.com" // <--- OJO: Aquí debería ir el email real del usuario logueado
+            };
+
             await fetch('/api/user/profile', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(dataToSend),
             });
             
-            // Redirigimos al inicio de la APP (Dashboard)
             router.push('/dashboard');
         } catch (e) { 
-            console.error("Error guardando datos:", e);
-            setLoading(false);
-            alert("Hubo un error al guardar. Por favor intenta de nuevo.");
+             // ... error handling
         }
     };
 
