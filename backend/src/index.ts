@@ -7,6 +7,7 @@ import helmet from 'helmet';
 import { errorHandler } from './middleware/errorHandler';
 import { createServer } from 'http';
 import { initSocket } from './services/socket';
+import { updateProfile } from './controllers/profileController';
 
 import authRoutes from './routes/authRoutes';
 import routineRoutes from './routes/routineRoutes';
@@ -40,9 +41,11 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
+    // Permitimos requests sin origen (postman/mobile apps) o si están en la lista
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.log('Blocked by CORS:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -53,11 +56,10 @@ app.use(cors({
 
 // MUY IMPORTANTE: Manejar explícitamente el preflight para móviles
 app.options('*', cors());
-// app.use(limiter);
 
 app.use(express.json());
 
-
+// --- DEFINICIÓN DE RUTAS ---
 app.use('/auth', authRoutes);
 app.use('/routines', routineRoutes);
 app.use('/diets', dietRoutes);
@@ -67,6 +69,10 @@ app.use('/admin', adminRoutes);
 app.use('/messages', messageRoutes);
 app.use('/templates', templateRoutes);
 app.use('/ai', aiRoutes);
+
+// *** CORRECCIÓN CRÍTICA AQUI ***
+// Esta es la ruta que faltaba para guardar el formulario del Onboarding
+app.put('/profile', updateProfile);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Backend is running!');
