@@ -16,10 +16,10 @@ model User {
   passwordHash String
   role         Role     @default(CLIENT)
   
-  // Campo NUEVO que faltaba
-  planType     String?  @default("COMPLETO") // "COMPLETO", "ENTRENAMIENTO", "NUTRICION"
+  // --- CAMPOS NUEVOS QUE FALTABAN ---
+  planType     String?  @default("COMPLETO") 
+  // ----------------------------------
   
-  // Campos antiguos (mantenemos por compatibilidad si los usabas)
   height       Float?
   weight       Float?
   age          Int?
@@ -34,7 +34,7 @@ model User {
   planSchedule Json?
 }
 
-// 2. Perfil Detallado (Aquí va todo lo del Formulario)
+// 2. Perfil Detallado
 model UserProfile {
   id                 Int      @id @default(autoincrement())
   userId             Int      @unique
@@ -46,10 +46,11 @@ model UserProfile {
   weight_kg          Float?
   height_cm          Float?
   
-  // Estilo de Vida (LOS QUE FALTABAN)
-  dailyActivity      String?  // Sedentario, Ligera, etc.
+  // --- ESTILO DE VIDA (LOS QUE DABAN ERROR) ---
+  dailyActivity      String?  
   sleepQuality       String?
   stressLevel        String?
+  // --------------------------------------------
   
   // Entrenamiento
   goal               String?
@@ -58,7 +59,7 @@ model UserProfile {
   daysPerWeek        Int?
   sessionDurationMin Int?
   
-  // Dolores (Booleanos)
+  // Dolores
   painColumna        Boolean  @default(false)
   painHombro         Boolean  @default(false)
   painRodilla        Boolean  @default(false)
@@ -68,10 +69,10 @@ model UserProfile {
   // Nutrición
   dietPreference     String?
   waterIntake        String?
-  dislikedFood       String?  // Alimentos que no gustan
+  dislikedFood       String?
   
-  // Salud General
-  injuries           String?  // Aquí guardamos el resumen de condiciones médicas
+  // Salud
+  injuries           String? 
   
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
