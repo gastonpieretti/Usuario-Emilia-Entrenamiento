@@ -36,5 +36,5 @@ RUN chmod +x start.sh
 
 EXPOSE 3001
 
-# Usamos el script para asegurar que la base de datos se actualice ANTES de arrancar
-CMD ["./start.sh"]
+# Cambiamos CMD por ENTRYPOINT para que sea más robusto
+ENTRYPOINT ["./start.sh"]
