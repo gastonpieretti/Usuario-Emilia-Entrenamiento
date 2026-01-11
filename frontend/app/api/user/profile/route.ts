@@ -1,39 +1,34 @@
 import { NextResponse } from 'next/server';
-import { getServerSession } from "next-auth"; 
-// Asegúrate de importar authOptions correctamente. Si da error, usa una ruta relativa simple o elimínalo si no lo usas.
-// Si no tienes authOptions a mano, usaremos una solución temporal abajo.
+
+// NOTA: Hemos eliminado los imports de "next-auth" para evitar el error de compilación.
 
 export async function POST(req: Request) {
     try {
+        // 1. Recibimos los datos del formulario (que ya incluyen el email)
         const body = await req.json();
         
-        // --- TRUCO DE SEGURIDAD ---
-        // Vamos a intentar sacar el email de la sesión. 
-        // Si falla el import de next-auth, asegúrate de que 'body' ya traiga el email 
-        // o inyectaló aquí si lo tienes en el contexto.
-        // Por ahora, enviaremos todo el body tal cual.
-        
+        // 2. Definimos la URL de tu Backend
         const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://usuario-emilia-entrenamiento.onrender.com';
 
         console.log("📤 Enviando datos al backend:", backendUrl);
 
-        // OJO: Necesitamos enviar el email. 
-        // Si tu formulario no tiene campo 'email', asegúrate de agregarlo al objeto body 
-        // antes de enviarlo si lo tienes disponible en el cliente.
-        // Si el usuario está logueado, su email debería estar accesible.
-        
+        // 3. Enviamos los datos al Backend (usando PUT como definimos en index.ts)
         const resBackend = await fetch(`${backendUrl}/profile`, { 
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body) // El body debe incluir { email: "usuario@ejemplo.com", ... }
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
         });
 
+        // 4. Manejo de errores del backend
         if (!resBackend.ok) {
-            const text = await resBackend.text(); // Leemos como texto por si es HTML
-            console.error("❌ Respuesta del backend:", text);
-            return NextResponse.json({ error: "Error en backend: " + text.substring(0, 100) }, { status: 500 });
+            const errorText = await resBackend.text();
+            console.error("❌ Error del backend:", errorText);
+            return NextResponse.json({ error: "Error guardando en backend" }, { status: 500 });
         }
 
+        // 5. Éxito
         const updatedProfile = await resBackend.json();
         return NextResponse.json(updatedProfile);
 
