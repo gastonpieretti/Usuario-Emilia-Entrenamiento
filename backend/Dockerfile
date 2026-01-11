@@ -34,7 +34,9 @@ COPY start.sh ./
 
 RUN chmod +x start.sh
 
+# ... (todo lo anterior igual hasta el EXPOSE 3001)
+
 EXPOSE 3001
 
-# Cambiamos CMD por ENTRYPOINT para que sea más robusto
-ENTRYPOINT ["./start.sh"]
+# Comando de fuerza bruta: Sincroniza y arranca en una sola línea
+CMD npx prisma db push --accept-data-loss && node dist/index.js
