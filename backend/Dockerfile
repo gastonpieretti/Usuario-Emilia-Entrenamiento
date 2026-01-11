@@ -1,43 +1,51 @@
-# Build Stage
+# --- Etapa de Construcción (Builder) ---
 FROM node:20-alpine AS builder
 
+# Instalamos OpenSSL necesario para Prisma
 RUN apk add --no-cache openssl
 
 WORKDIR /app
 
-# 1. COPIAMOS TODO PRIMERO
+# 1. Copiamos TODOS los archivos primero
 COPY . .
 
-# 2. INSTALAMOS DEPENDENCIAS (Esto arregla los permisos)
+# 2. LIMPIEZA OBLIGATORIA (La parte más importante)
+# Borramos la carpeta node_modules por si se copió desde tu computadora.
+# Esto elimina el archivo 'prisma' corrupto que causa el "Permission denied".
+RUN rm -rf node_modules
+
+# 3. Instalación limpia desde cero
 RUN npm install
 
-# 3. GENERAMOS PRISMA (Ahora sí tendrá permiso)
+# 4. Generamos el cliente de Prisma (Ahora sí funcionará)
 RUN npx prisma generate
 
-# 4. CONSTRUIMOS
+# 5. Construimos el proyecto
 RUN npm run build
 
-# Production Stage
+# --- Etapa de Producción ---
 FROM node:20-alpine
 
+# Instalamos OpenSSL también en producción
 RUN apk add --no-cache openssl
 
 WORKDIR /app
 
-# Copiamos package.json y prisma para producción
+# Copiamos solo lo necesario para arrancar
 COPY package*.json ./
 COPY prisma ./prisma/
 
-# Instalamos solo lo necesario para correr
+# Instalamos solo dependencias de producción (más ligero)
 RUN npm install --only=production
 
-# Copiamos los archivos construidos en la etapa anterior
+# Copiamos el código compilado desde la etapa anterior
 COPY --from=builder /app/dist ./dist
-COPY start.sh ./
 
+# Copiamos el script de inicio y le damos permisos
+COPY start.sh ./
 RUN chmod +x start.sh
 
 EXPOSE 3001
 
-# Comando de arranque
+# Comando de arranque (igual que antes)
 CMD npx prisma db push --accept-data-loss && node dist/index.js
