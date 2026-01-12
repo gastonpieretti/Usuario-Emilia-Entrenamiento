@@ -1,19 +1,30 @@
 {
-    "compilerOptions": {
-        "target": "es2016",
-        "module": "commonjs",
-        "outDir": "./dist",
-        "rootDir": "./src",
-        "strict": true,
-        "esModuleInterop": true,
-        "skipLibCheck": true,
-        "forceConsistentCasingInFileNames": true
-    },
-    "include": [
-        "src/**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "scripts"
-    ]
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/index.ts",
+    "src/controllers/profileController.ts",
+    "src/controllers/userController.ts",
+    "src/controllers/authController.ts",
+    "src/routes/userRoutes.ts",
+    "src/routes/authRoutes.ts",
+    "src/routes/adminRoutes.ts",
+    "src/services/userService.ts",
+    "src/services/authService.ts",
+    "src/middleware/**/*",
+    "src/lib/**/*",
+    "src/config/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts"
+  ]
 }
