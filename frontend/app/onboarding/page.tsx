@@ -47,6 +47,7 @@ export default function OnboardingPage() {
 
     // Plan-based step filtering
     const allSteps = useMemo(() => {
+        // CORRECCIÓN 1: (user as any) para evitar error de tipo User
         const planType = (user as any)?.planType || 'COMPLETO';
 
         const module1 = [
@@ -77,7 +78,8 @@ export default function OnboardingPage() {
             { id: 'stressLevel', title: '¿Cómo es tu nivel de estrés diario?', type: 'select', options: ['Baja', 'Media', 'Alta'] },
         ];
 
-        let filteredSteps = [...module1];
+        // CORRECCIÓN 2: Tipado explícito ': any[]' para evitar error de compilación al mezclar tipos
+        let filteredSteps: any[] = [...module1];
 
         if (planType === 'COMPLETO') {
             filteredSteps = [...module1, ...module2, ...module3, ...module4];
@@ -113,6 +115,7 @@ export default function OnboardingPage() {
     const handleFinalSubmit = async () => {
         setLoading(true);
         try {
+            // CORRECCIÓN 3: Cambiado a 'api.put' y ruta '/profile' para coincidir con backend
             await api.put('/profile', { ...formData, isFinalStep: true });
             setSubmitted(true);
         } catch (error) {
