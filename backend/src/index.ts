@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3001;
 
 // --- CONFIGURACIÓN DE SEGURIDAD TOTAL ---
 app.use(cors({
-  origin: true, // Esto permite que CUALQUIERA de tus dominios de Render entre sin bloqueos
+  origin: true, 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
@@ -20,17 +20,21 @@ app.use(cors({
 
 app.use(express.json());
 
-// --- CONEXIÓN DE CABLES (RUTAS) ---
-// Aquí unificamos todo para que el Frontend encuentre lo que busca
-app.use('/', authRoutes);
-app.use('/', userRoutes);
+// --- MAPEADO DE RUTAS (SOLUCIÓN AL 404) ---
+// Registramos las rutas de todas las formas posibles que el frontend suele usar
+app.use('/auth', authRoutes);         // Para /auth/login
+app.use('/api/auth', authRoutes);     // Para /api/auth/login
+app.use('/users', userRoutes);        // Para /users/profile
+app.use('/api/users', userRoutes);    // Para /api/users/profile
+app.use('/', authRoutes);             // Para /login directo
+app.use('/', userRoutes);             // Para /profile directo
 app.use('/admin', adminRoutes);
 
 // Ruta para verificar salud del servidor
 app.get('/', (req, res) => {
-  res.send('Servidor de Emilia Entrenamiento: ONLINE y Puertas Abiertas');
+  res.send('Servidor de Emilia Entrenamiento: ONLINE');
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en puerto ${PORT}`);
+  console.error(`Servidor ejecutándose en puerto ${PORT}`);
 });
