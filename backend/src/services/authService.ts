@@ -27,7 +27,7 @@ export const register = async (data: any) => {
       passwordHash: hashedPassword,
       name: data.name,
       lastName: data.lastName,
-      role: 'CLIENT'
+      role: 'client' // <--- CORREGIDO A MINÚSCULA
     }
   });
   return user;
