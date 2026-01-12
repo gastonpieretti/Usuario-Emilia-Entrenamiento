@@ -10,9 +10,7 @@ export const getUserById = async (userId: number) => {
 };
 
 export const getUserByEmail = async (email: string) => {
-  return await prisma.user.findUnique({
-    where: { email }
-  });
+  return await prisma.user.findUnique({ where: { email } });
 };
 
 export const createUser = async (data: any) => {
@@ -22,14 +20,11 @@ export const createUser = async (data: any) => {
       passwordHash: data.passwordHash,
       name: data.name,
       lastName: data.lastName,
-      role: 'CLIENT'
+      role: 'client' // <--- CORREGIDO A MINÚSCULA
     }
   });
 };
 
 export const updateUser = async (userId: number, data: any) => {
-  return await prisma.user.update({
-    where: { id: userId },
-    data
-  });
+  return await prisma.user.update({ where: { id: userId }, data });
 };
