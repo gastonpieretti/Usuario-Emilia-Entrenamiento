@@ -1,3 +1,5 @@
+"use client";
+
 import AdminGuard from '../../components/AdminGuard';
 import Sidebar from '../../components/Sidebar';
 import { useState } from 'react';

@@ -24,6 +24,7 @@ interface UserData {
     planExpiresAt?: string;
     planStartDate?: string;
     acquiredMonths?: number;
+    planType?: string;
     planSchedule?: { month: number, start: string, end: string }[];
 }
 
@@ -402,13 +403,15 @@ export default function AdminUserDetail({ params }: { params: Promise<{ id: stri
                 ? formData.profile.painAreas
                 : split(formData.profile.painAreas).map((s: string) => s.toLowerCase());
 
-            const payload: any = { // Use 'any' for payload to allow adding 'password' dynamically
+            const payload: any = {
                 ...formData,
                 profile: {
                     ...formData.profile,
-                    painRodilla: painList.includes('rodilla'),
-                    painColumna: painList.includes('columna') || painList.includes('espalda'),
-                    painHombro: painList.includes('hombro'),
+                    painEspalda: painList.includes('espalda') || painList.includes('columna'),
+                    painHombros: painList.includes('hombros') || painList.includes('hombro'),
+                    painRodillas: painList.includes('rodillas') || painList.includes('rodilla'),
+                    painTobillos: painList.includes('tobillos') || painList.includes('tobillo'),
+                    painCadera: painList.includes('cadera'),
                     equipment: Array.isArray(formData.profile.equipment) ? formData.profile.equipment : split(formData.profile.equipment),
                     drinks: Array.isArray(formData.profile.drinks) ? formData.profile.drinks : split(formData.profile.drinks),
                     digestiveIssues: Array.isArray(formData.profile.digestiveIssues) ? formData.profile.digestiveIssues : split(formData.profile.digestiveIssues),
@@ -572,6 +575,19 @@ export default function AdminUserDetail({ params }: { params: Promise<{ id: stri
                                     />
                                     <p className="text-xs text-gray-500 mt-1">Si se deja vacío, no tiene vencimiento.</p>
                                 </div>
+                                <div className="mb-4">
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Plan (Onboarding)</label>
+                                    <select
+                                        value={formData.planType || 'COMPLETO'}
+                                        onChange={(e) => handleInputChange('main', 'planType', e.target.value)}
+                                        className="w-full border border-gray-300 rounded p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none font-bold"
+                                    >
+                                        <option value="COMPLETO">COMPLETO (Entrenamiento + Nutrición)</option>
+                                        <option value="PROGRAMA DE ENTRENAMIENTO">PROGRAMA DE ENTRENAMIENTO</option>
+                                        <option value="PROGRAMA NUTRICIONAL">PROGRAMA NUTRICIONAL</option>
+                                    </select>
+                                    <p className="text-xs text-gray-500 mt-1">Define qué módulos verá el usuario en su Onboarding.</p>
+                                </div>
                                 <div className="border-t pt-4 mt-4 space-y-4">
                                     <h4 className="font-bold text-sm uppercase text-gray-500 flex items-center gap-2">
                                         <Clock size={16} /> Configuración de Desbloqueo
@@ -684,7 +700,7 @@ export default function AdminUserDetail({ params }: { params: Promise<{ id: stri
                                 <InputField label="Peso (kg)" type="number" value={p.weight} onChange={(e: any) => handleInputChange('profile', 'weight', parseFloat(e.target.value))} />
                                 <InputField label="Altura (cm)" type="number" value={p.height} onChange={(e: any) => handleInputChange('profile', 'height', parseFloat(e.target.value))} />
                                 <div className="md:col-span-2">
-                                    <InputField label="Dolores (separar con comas)" value={p.painAreas} onChange={(e: any) => handleInputChange('profile', 'painAreas', e.target.value)} />
+                                    <InputField label="Dolores (separar con comas: espalda, hombros, rodillas, tobillos, cadera)" value={p.painAreas} onChange={(e: any) => handleInputChange('profile', 'painAreas', e.target.value)} />
                                     <InputField label="Lesiones" value={p.injuries} onChange={(e: any) => handleInputChange('profile', 'injuries', e.target.value)} />
                                 </div>
                             </CardContent>

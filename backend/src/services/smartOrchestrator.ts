@@ -68,10 +68,16 @@ export const SmartOrchestrator = {
                 sessionDurationMin: data.sessionDurationMin,
                 trainingLocation: data.trainingLocation,
                 equipment: data.equipment,
-                painRodilla: data.painRodilla || data.sensitive_areas?.includes('rodilla'),
-                painColumna: data.painColumna || data.sensitive_areas?.includes('espalda'),
-                painHombro: data.painHombro || data.sensitive_areas?.includes('hombro'),
-                targetWeight: data.targetWeight, // New field for projection
+                painRodillas: data.painRodillas,
+                painHombros: data.painHombros,
+                painEspalda: data.painEspalda,
+                painTobillos: data.painTobillos,
+                painCadera: data.painCadera,
+                sleepQuality: data.sleepQuality,
+                stressLevel: data.stressLevel,
+                happyFood: data.happyFood,
+                dailyActivity: data.dailyActivity,
+                targetWeight: data.targetWeight,
                 aptoSobrepeso: aptoSobrepeso,
                 mealsPerDay: data.mealsPerDay || 4,
                 dietPreference: data.dietPreference || 'TODO'
@@ -87,11 +93,19 @@ export const SmartOrchestrator = {
                 sessionDurationMin: data.sessionDurationMin,
                 trainingLocation: data.trainingLocation,
                 equipment: data.equipment,
-                painRodilla: data.painRodilla || data.sensitive_areas?.includes('rodilla'),
-                painColumna: data.painColumna || data.sensitive_areas?.includes('espalda'),
-                painHombro: data.painHombro || data.sensitive_areas?.includes('hombro'),
+                painRodillas: data.painRodillas,
+                painHombros: data.painHombros,
+                painEspalda: data.painEspalda,
+                painTobillos: data.painTobillos,
+                painCadera: data.painCadera,
+                sleepQuality: data.sleepQuality,
+                stressLevel: data.stressLevel,
+                happyFood: data.happyFood,
+                dailyActivity: data.dailyActivity,
                 targetWeight: data.targetWeight,
-                aptoSobrepeso: aptoSobrepeso
+                aptoSobrepeso: aptoSobrepeso,
+                mealsPerDay: data.mealsPerDay || 4,
+                dietPreference: data.dietPreference || 'TODO'
             }
         });
 

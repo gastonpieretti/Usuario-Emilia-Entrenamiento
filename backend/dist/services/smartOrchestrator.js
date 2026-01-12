@@ -35,7 +35,6 @@ exports.calculateTMB = calculateTMB;
 exports.SmartOrchestrator = {
     processOnboarding(userId, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c, _d, _e, _f;
             const bmi = (0, exports.calculateBMI)(data.weight_kg, data.height_cm);
             const tmb = (0, exports.calculateTMB)(data);
             // Protocolo de Riesgo: Si el IMC es >= 30, activa apto_sobrepeso
@@ -60,10 +59,16 @@ exports.SmartOrchestrator = {
                     sessionDurationMin: data.sessionDurationMin,
                     trainingLocation: data.trainingLocation,
                     equipment: data.equipment,
-                    painRodilla: data.painRodilla || ((_a = data.sensitive_areas) === null || _a === void 0 ? void 0 : _a.includes('rodilla')),
-                    painColumna: data.painColumna || ((_b = data.sensitive_areas) === null || _b === void 0 ? void 0 : _b.includes('espalda')),
-                    painHombro: data.painHombro || ((_c = data.sensitive_areas) === null || _c === void 0 ? void 0 : _c.includes('hombro')),
-                    targetWeight: data.targetWeight, // New field for projection
+                    painRodillas: data.painRodillas,
+                    painHombros: data.painHombros,
+                    painEspalda: data.painEspalda,
+                    painTobillos: data.painTobillos,
+                    painCadera: data.painCadera,
+                    sleepQuality: data.sleepQuality,
+                    stressLevel: data.stressLevel,
+                    happyFood: data.happyFood,
+                    dailyActivity: data.dailyActivity,
+                    targetWeight: data.targetWeight,
                     aptoSobrepeso: aptoSobrepeso,
                     mealsPerDay: data.mealsPerDay || 4,
                     dietPreference: data.dietPreference || 'TODO'
@@ -79,11 +84,19 @@ exports.SmartOrchestrator = {
                     sessionDurationMin: data.sessionDurationMin,
                     trainingLocation: data.trainingLocation,
                     equipment: data.equipment,
-                    painRodilla: data.painRodilla || ((_d = data.sensitive_areas) === null || _d === void 0 ? void 0 : _d.includes('rodilla')),
-                    painColumna: data.painColumna || ((_e = data.sensitive_areas) === null || _e === void 0 ? void 0 : _e.includes('espalda')),
-                    painHombro: data.painHombro || ((_f = data.sensitive_areas) === null || _f === void 0 ? void 0 : _f.includes('hombro')),
+                    painRodillas: data.painRodillas,
+                    painHombros: data.painHombros,
+                    painEspalda: data.painEspalda,
+                    painTobillos: data.painTobillos,
+                    painCadera: data.painCadera,
+                    sleepQuality: data.sleepQuality,
+                    stressLevel: data.stressLevel,
+                    happyFood: data.happyFood,
+                    dailyActivity: data.dailyActivity,
                     targetWeight: data.targetWeight,
-                    aptoSobrepeso: aptoSobrepeso
+                    aptoSobrepeso: aptoSobrepeso,
+                    mealsPerDay: data.mealsPerDay || 4,
+                    dietPreference: data.dietPreference || 'TODO'
                 }
             });
             // Initialize Gamification Level 1
