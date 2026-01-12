@@ -47,7 +47,7 @@ export default function OnboardingPage() {
 
     // Plan-based step filtering
     const allSteps = useMemo(() => {
-        const planType = user?.planType || 'COMPLETO'; // Fallback to COMPLETO if not set
+        const planType = (user as any)?.planType || 'COMPLETO';
 
         const module1 = [
             { id: 'gender', title: '¿Cuál es tu sexo biológico?', type: 'select', options: ['HOMBRE', 'MUJER'] },
