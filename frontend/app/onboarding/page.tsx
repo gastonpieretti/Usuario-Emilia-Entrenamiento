@@ -113,7 +113,7 @@ export default function OnboardingPage() {
     const handleFinalSubmit = async () => {
         setLoading(true);
         try {
-            await api.post('/users/profile', { ...formData, isFinalStep: true });
+            await api.put('/profile', { ...formData, isFinalStep: true });
             setSubmitted(true);
         } catch (error) {
             console.error('Error saving profile', error);
