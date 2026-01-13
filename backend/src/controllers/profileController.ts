@@ -6,46 +6,32 @@ const prisma = new PrismaClient();
 export const updateProfile = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const userId = parseInt(id);
     const data = { ...req.body };
 
-    // --- LIMPIEZA DE DATOS PARA EVITAR ERRORES DE PRISMA ---
-    
-    // 1. Corregir dislikedFood (El error del log)
-    // Si es un array, lo convertimos a texto simple.
+    // Limpieza de datos
     if (Array.isArray(data.dislikedFood)) {
-      data.dislikedFood = data.dislikedFood.length > 0 ? data.dislikedFood.join(', ') : "";
+      data.dislikedFood = data.dislikedFood.join(', ');
     }
-
-    // 2. Eliminar campos que el Frontend envía pero la Base de Datos no tiene
     delete data.isFinalStep;
-    delete data.dailyActivity; 
+    delete data.dailyActivity;
 
-    // 3. Asegurar que el ID sea un número válido
-    const userId = parseInt(id);
-    if (isNaN(userId)) {
-      return res.status(400).json({ error: 'ID de usuario no válido' });
-    }
-
-    // --- GUARDADO EN BASE DE DATOS ---
+    // 1. Guardar el Perfil (Usando el nombre correcto: 'profile')
     const profile = await prisma.userProfile.upsert({
-      where: {
-        userId: userId,
-      },
+      where: { userId: userId },
       update: data,
-      create: {
-        ...data,
-        userId: userId,
-      },
+      create: { ...data, userId: userId },
     });
 
-    console.log('Perfil guardado con éxito para usuario:', userId);
-    return res.json(profile);
+    // 2. ACTIVAR AL USUARIO (Vital para que aparezca en el Admin)
+    await prisma.user.update({
+      where: { id: userId },
+      data: { hasCompletedOnboarding: true }
+    });
 
+    return res.json({ success: true, profile });
   } catch (error: any) {
-    console.error('Error detallado en Prisma:', error.message);
-    return res.status(500).json({ 
-      error: 'Error al procesar el perfil',
-      details: error.message 
-    });
+    console.error('Error:', error.message);
+    return res.status(500).json({ error: 'Error al procesar perfil' });
   }
 };
