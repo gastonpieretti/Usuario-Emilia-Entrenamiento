@@ -1,12 +1,8 @@
 import { Router } from 'express';
-import { getPendingData, approveUser } from '../controllers/adminController';
+import { getPendingData, getAllUsers, approveUser } from '../controllers/adminController';
 
 const router = Router();
-
-// Esta es la ruta exacta que pide tu AdminDashboard
-router.get('/pending', getPendingData);
-
-// Esta es la ruta para el botón de APROBAR
-router.put('/:id/approve', approveUser);
-
+router.get('/pending', getPendingData); // Para Inicio y Aprobaciones
+router.get('/users', getAllUsers);      // Para la sección USUARIOS
+router.put('/:id/approve', approveUser); // Para el botón aprobar
 export default router;
