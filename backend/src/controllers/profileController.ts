@@ -9,29 +9,29 @@ export const updateProfile = async (req: Request, res: Response) => {
     const userId = parseInt(id);
     const data = { ...req.body };
 
-    // Limpieza de datos
+    // Limpieza de datos (Evita errores de formato)
     if (Array.isArray(data.dislikedFood)) {
       data.dislikedFood = data.dislikedFood.join(', ');
     }
-    delete data.isFinalStep;
-    delete data.dailyActivity;
+    delete data.isFinalStep; 
 
-    // 1. Guardar el Perfil (Usando el nombre correcto: 'profile')
-    const profile = await prisma.userProfile.upsert({
+    // 1. Guardar en UserProfile (PUNTO 2)
+    const updatedProfile = await prisma.userProfile.upsert({
       where: { userId: userId },
       update: data,
       create: { ...data, userId: userId },
     });
 
-    // 2. ACTIVAR AL USUARIO (Vital para que aparezca en el Admin)
+    // 2. Marcar Onboarding como COMPLETO (PUNTO 1)
+    // Esto hace que el usuario aparezca en tu lista de administrador
     await prisma.user.update({
       where: { id: userId },
       data: { hasCompletedOnboarding: true }
     });
 
-    return res.json({ success: true, profile });
+    res.json(updatedProfile);
   } catch (error: any) {
-    console.error('Error:', error.message);
-    return res.status(500).json({ error: 'Error al procesar perfil' });
+    console.error(error);
+    res.status(500).json({ error: 'Error al guardar el perfil' });
   }
 };
