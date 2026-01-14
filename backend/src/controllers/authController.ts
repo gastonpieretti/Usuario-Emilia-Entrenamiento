@@ -13,14 +13,14 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    const user = await register(req.body);
-    res.json(user);
+    const result = await register(req.body);
+    res.json(result);
   } catch (error: any) {
     res.status(400).json({ error: error.message });
   }
 };
 
-// Funciones vacías para evitar errores de importación si las rutas las buscan
-export const getSecurityQuestion = async (req: Request, res: Response) => res.status(200).send();
-export const recoverPassword = async (req: Request, res: Response) => res.status(200).send();
-export const resetPassword = async (req: Request, res: Response) => res.status(200).send();
+// Funciones de utilidad para evitar errores de importación en rutas
+export const getSecurityQuestion = async (req: Request, res: Response) => res.status(200).json({ message: "Not implemented" });
+export const recoverPassword = async (req: Request, res: Response) => res.status(200).json({ message: "Not implemented" });
+export const resetPassword = async (req: Request, res: Response) => res.status(200).json({ message: "Not implemented" });
