@@ -1,14 +1,31 @@
 import { Router } from 'express';
-import { loginUser, registerUser } from '../controllers/authController';
+import { 
+  loginUser, 
+  registerUser, 
+  getSecurityQuestion, 
+  recoverPassword, 
+  resetPassword 
+} from '../controllers/authController';
 
 const router = Router();
 
-// Rutas de autenticación
-router.post('/register', registerUser);
+// --- RUTAS DE ACCESO (POST) ---
+
+// Esta es la ruta que activa el botón "Ingresar"
 router.post('/login', loginUser);
 
-// Estas rutas las dejamos comentadas para que no den error de "no existe"
-// router.get('/me', me);
-// router.post('/logout', logout);
+// Esta es la ruta que activa el botón de "Registrarse"
+router.post('/register', registerUser);
+
+// --- RUTAS DE SEGURIDAD Y RECUPERACIÓN ---
+
+// Para obtener la pregunta de seguridad
+router.get('/security-question', getSecurityQuestion);
+
+// Para iniciar la recuperación
+router.post('/recover-password', recoverPassword);
+
+// Para el cambio final de contraseña
+router.post('/reset-password', resetPassword);
 
 export default router;
