@@ -1,34 +1,60 @@
 import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || 'secret_key';
+const JWT_SECRET = process.env.JWT_SECRET || 'secret_emilia_2024';
 
-export const login = async (email: string, password: string) => {
-  const user = await prisma.user.findUnique({ where: { email } });
-  if (!user) throw new Error('Usuario no encontrado');
+// --- FUNCIÓN DE REGISTRO ---
+export const register = async (userData: any) => {
+  const { email, password, name, lastName } = userData;
 
-  const isValid = await bcrypt.compare(password, user.passwordHash);
-  if (!isValid) throw new Error('Contraseña incorrecta');
+  // 1. Verificar si el usuario ya existe
+  const existingUser = await prisma.user.findUnique({ where: { email } });
+  if (existingUser) {
+    throw new Error('El correo electrónico ya está registrado.');
+  }
 
-  const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
-  return { user, token };
-};
+  // 2. Cifrar la contraseña
+  const hashedPassword = await bcrypt.hash(password, 10);
 
-export const register = async (data: any) => {
-  const existing = await prisma.user.findUnique({ where: { email: data.email } });
-  if (existing) throw new Error('El email ya está registrado');
-
-  const hashedPassword = await bcrypt.hash(data.password, 10);
+  // 3. Crear el usuario en la base de datos (Usando passwordHash según tu schema)
   const user = await prisma.user.create({
     data: {
-      email: data.email,
+      email,
       passwordHash: hashedPassword,
-      name: data.name,
-      lastName: data.lastName,
-      role: 'client' // <--- CORREGIDO A MINÚSCULA
-    }
+      name,
+      lastName,
+      role: 'client', // Por defecto es cliente
+      planType: 'COMPLETO', // Valor por defecto del schema
+    },
   });
-  return user;
+
+  // 4. Generar token para login automático tras registro
+  const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+
+  // No devolvemos el passwordHash por seguridad
+  const { passwordHash: _, ...userWithoutPassword } = user;
+  return { user: userWithoutPassword, token };
+};
+
+// --- FUNCIÓN DE LOGIN (BOTÓN INGRESAR) ---
+export const login = async (email: string, password: string) => {
+  // 1. Buscar el usuario
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
+    throw new Error('Credenciales inválidas.');
+  }
+
+  // 2. Comparar la contraseña ingresada con la cifrada en la DB
+  const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+  if (!isPasswordValid) {
+    throw new Error('Credenciales inválidas.');
+  }
+
+  // 3. Generar token de sesión
+  const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '7d' });
+
+  const { passwordHash: _, ...userWithoutPassword } = user;
+  return { user: userWithoutPassword, token };
 };
