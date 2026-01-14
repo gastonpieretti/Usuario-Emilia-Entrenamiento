@@ -3,7 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// 1. LISTA MAESTRA (Para la sección "USUARIOS")
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const { search } = req.query;
@@ -18,12 +17,11 @@ export const getAllUsers = async (req: Request, res: Response) => {
         ] : undefined
       },
       include: { 
-        profile: true // Incluye todos los datos del PUNTO 2 (peso, altura, etc.)
+        profile: true 
       },
       orderBy: { createdAt: 'desc' }
     });
     
-    // Mapeamos los datos para que el panel de administración los entienda fácil
     const formattedUsers = users.map(user => ({
       ...user,
       fullName: `${user.name || ''} ${user.lastName || ''}`.trim(),
@@ -38,10 +36,8 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-// 2. BANDEJA DE ENTRADA (Para la sección "APROBACIONES" e "INICIO")
 export const getPendingData = async (req: Request, res: Response) => {
   try {
-    // Buscamos usuarios que terminaron su registro pero no están aprobados aún
     const pendingAccounts = await prisma.user.findMany({
       where: { 
         isApproved: false, 
@@ -51,7 +47,6 @@ export const getPendingData = async (req: Request, res: Response) => {
       include: { profile: true }
     });
 
-    // También traemos rutinas que el administrador deba revisar
     const pendingRoutines = await prisma.routine.findMany({
       where: { isApproved: false },
       include: { user: true }
@@ -67,11 +62,11 @@ export const getPendingData = async (req: Request, res: Response) => {
   }
 };
 
-// 3. ACCIÓN DE APROBACIÓN (El botón "APROBAR")
 export const approveUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const userId = parseInt(id);
+    // Corrección TS2345: Aseguramos que el id sea string antes de usarlo
+    const userId = parseInt(String(id));
 
     if (isNaN(userId)) {
       return res.status(400).json({ error: 'ID de usuario no válido' });
@@ -82,7 +77,6 @@ export const approveUser = async (req: Request, res: Response) => {
       data: { isApproved: true }
     });
 
-    console.log(`Usuario ${userId} aprobado con éxito`);
     return res.json({ success: true, user: updatedUser });
   } catch (error: any) {
     console.error('Error al aprobar usuario:', error.message);
@@ -90,12 +84,13 @@ export const approveUser = async (req: Request, res: Response) => {
   }
 };
 
-// 4. ELIMINAR/CANCELAR (Para el botón de la papelera)
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    const userId = parseInt(String(id));
+    
     await prisma.user.update({
-      where: { id: parseInt(id) },
+      where: { id: userId },
       data: { isDeleted: true }
     });
     return res.json({ success: true });
